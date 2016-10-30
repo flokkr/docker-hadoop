@@ -1,0 +1,7 @@
+<configuration>
+    <property><name>yarn.resourcemanager.hostname</name><value>resourcemanager</value></property>
+    <property><name>yarn.nodemanager.vmem-check-enabled</name><value>false</value></property>
+    <!--property><name>yarn.timeline-service.enabled</name><value>true</value></property>
+    <property><name>yarn.resourcemanager.system-metrics-publisher.enabled</name><value>true</value></property>
+    <property><name>yarn.timeline-service.generic-application-history.enabled</name><value>true</value></property-->
+</configuration>
