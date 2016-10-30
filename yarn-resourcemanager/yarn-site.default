@@ -1,0 +1,3 @@
+yarn.resourcemanager.hostname=resourcemanager.domain
+yarn.nodemanager.vmem-check-enabled=false
+

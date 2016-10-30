@@ -1,5 +1,7 @@
 FROM elek/hadoop
-EXPOSE 8088
-ADD yarn-site.xml /usr/hdp/hadoop/etc/hadoop/yarn-site.xml
-ENTRYPOINT /usr/hdp/hadoop/bin/yarn resourcemanager
+EXPOSE 8080
+COPY start.sh .
+COPY yarn-site.default /usr/hdp/hadoop/etc/hadoop/yarn-site.default
+COPY capacity-scheduler.xml.default /usr/hdp/hadoop/etc/hadoop/capacity-scheduler.xml.default
+ENTRYPOINT /usr/hdp/start.sh
 

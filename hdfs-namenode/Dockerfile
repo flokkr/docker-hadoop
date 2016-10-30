@@ -1,5 +1,7 @@
 FROM elek/hadoop
-ADD core-site.xml /usr/hdp/hadoop/etc/hadoop/core-site.xml
+ADD core-site.default /usr/hdp/hadoop/etc/hadoop/core-site.default
+ADD hdfs-site.default /usr/hdp/hadoop/etc/hadoop/hdfs-site.default
+ADD start.sh .
 RUN /usr/hdp/hadoop/bin/hdfs namenode -format 
-ENTRYPOINT /usr/hdp/hadoop/bin/hdfs namenode
+ENTRYPOINT /usr/hdp/start.sh
 
