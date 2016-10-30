@@ -1,0 +1,18 @@
+version: "2"
+services:
+   resourcemanager:
+      image: elek/elek-yarn-resourcemanager
+      container_name: yarn_resourcemanager
+      ports: 
+         - 8088:8088
+      networks:
+         hadoop:
+            aliases:
+               - resourcemanager.domain
+   nodemanager:
+      image: elek/hadoop-yarn-nodemanager
+      networks:
+         - hadoop
+networks:
+   hadoop:
+      external: true

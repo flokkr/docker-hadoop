@@ -1,0 +1,11 @@
+version: "2"
+services:
+   namenode:
+      image: elek/hadoop-hdfs-namenode
+      container_name: namenode
+      ports: 
+         - 50070:50070
+      network_mode: hadoop
+   datanode:
+      image: elek/hadoop-hdfs-datanode
+      network_mode: hadoop
