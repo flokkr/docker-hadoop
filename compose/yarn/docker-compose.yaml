@@ -1,7 +1,7 @@
 version: "2"
 services:
    resourcemanager:
-      image: elek/elek-yarn-resourcemanager
+      image: elek/hadoop-yarn-resourcemanager
       container_name: yarn_resourcemanager
       ports: 
          - 8088:8088
