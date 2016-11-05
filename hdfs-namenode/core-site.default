@@ -1,1 +1,1 @@
-fs.default.name=hdfs://hdfs-namenode.domain:9000
+fs.default.name=hdfs://namenode:9000
