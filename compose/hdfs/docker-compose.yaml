@@ -3,16 +3,14 @@ services:
    namenode:
       image: elek/hadoop-hdfs-namenode
       container_name: hdfs_namenode
+      hostname: namenode
       ports: 
          - 50070:50070
-      networks:
-         hadoop:
-            aliases:
-               - hdfs-namenode.domain
    datanode:
       image: elek/hadoop-hdfs-datanode
-      networks:
-         - hadoop
+      links: 
+         - namenode
 networks:
-   hadoop:
-      external: true
+   default:
+      external:
+         name: hadoop
