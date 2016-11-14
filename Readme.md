@@ -1,1 +1,0 @@
-Docker containers for start hadoop components (yar/hdfs cluster)
