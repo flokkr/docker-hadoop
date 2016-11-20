@@ -1,21 +1,56 @@
 #!/bin/bash
 
 function env-to-conf() {
-   env | grep $2 |  sed -e "s/^$2_//" | awk -F "=" '{gsub("_",".",$1);print tolower($1) "=" $2}' >> $1.env
+   envname=`echo $1 | awk '{print toupper($1)}'`
+   env | grep $envname |  sed -e "s/^$envname_//" | awk -F "=" '{gsub("_",".",$1);print tolower($1) "=" $2}' >> $CONF_DIR/$1.env
 }
 
 function merge() {
-   cat $1.env $1.default | awk -F "=" '{if (!seen[$1]++) print}' > $1.conf
+   cat $CONF_DIR/$1.env $CONF_DIR/$1.default | awk -F "=" '{if (!seen[$1]++) print}' > $CONF_DIR/$1.conf
 }
 
-function to-xml() {
-      echo "<configuration>" > $1.xml
-      cat $1.conf | awk -F "=" 'NF {print "<property><name>" $1 "</name><value>" $2 "</value></property>"}' >> $1.xml
-      echo "</configuration>" >> $1.xml
+function prop-to-xml() {
+      filename="${1%.*}"
+      echo "<configuration>" > $filename.xml
+      cat $1 | awk -F: '{ st = index($0,":");print "<property><name>" $1 "</name><value>" substr($0,st+2) "</value></property>"}' >> $filename.xml
+      echo "</configuration>" >> $filename.xml
 }
 
-function configure (){
-   env-to-conf $1 $2
-   merge $1 $2
-   [ -f $1.xml ] || to-xml $1 $2
+function env-to-xml() {
+      filename="${1%.*}"
+      echo "<configuration>" > $filename.xml
+      cat $1 | awk -F "=" 'NF {print "<property><name>" $1 "</name><value>" $2 "</value></property>"}' >> $filename.xml
+      echo "</configuration>" >> $filename.xml
 }
+
+
+function configure-from-consul() {
+   configsafename=${1/-/_}
+   echo $configsafename
+   wget $CONFIG_SERVER_URL/$configsafename-$RUNTIME_ENV.properties -O /tmp/$configsafename.properties
+   wounderscore /tmp/$configsafename.properties
+   prop-to-xml /tmp/$1.properties
+   /usr/bin/consul-template -once -consul $CONSUL_LOCATION -template /tmp/$1.xml:$CONF_DIR/$1.xml
+}
+
+function configure-from-defaults() {
+   env-to-conf $1
+   merge $1
+   [ -f $CONF_DIR/$1.xml ] || env-to-xml $CONF_DIR/$1.conf
+}
+
+function configure(){
+   if [ -z "$CONSUL_LOCATION" ]; then
+      configure-from-defaults $1
+   else
+      configure-from-consul $1
+   fi
+}
+
+function wounderscore(){
+   filename=$1
+   fixedfilename=${1/_/-}
+   mv $filename $fixedfilename
+}
+
+
