@@ -3,7 +3,7 @@ set -e
 set -x
 source /usr/hdp/hadoop-configurator.sh
 export CONF_DIR=/usr/hdp/hadoop/etc/hadoop
-init
+initialize
 configure core-site
 configure yarn-site
 /usr/hdp/hadoop/bin/yarn nodemanager
