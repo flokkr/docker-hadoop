@@ -1,7 +1,9 @@
 #!/bin/bash
 set -e
 set -x
+export CONF_DIR=/usr/hdp/hadoop/etc/hadoop
 source /usr/hdp/hadoop-configurator.sh
-configure /usr/hdp/hadoop/etc/hadoop/core-site CORE_SITE 
-configure /usr/hdp/hadoop/etc/hadoop/hdfs-site HDFS_SITE 
+init
+configure core-site
+configure hdfs-site
 /usr/hdp/hadoop/bin/hdfs datanode

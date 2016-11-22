@@ -2,5 +2,8 @@
 set -e
 set -x
 source /usr/hdp/hadoop-configurator.sh
-configure /usr/hdp/hadoop/etc/hadoop/yarn-site YARN_SITE 
+export CONF_DIR=/usr/hdp/hadoop/etc/hadoop
+init
+configure core-site
+configure yarn-site
 /usr/hdp/hadoop/bin/yarn nodemanager

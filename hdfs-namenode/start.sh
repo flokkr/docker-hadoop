@@ -2,6 +2,8 @@
 set -e
 set -x
 source /usr/hdp/hadoop-configurator.sh
-configure /usr/hdp/hadoop/etc/hadoop/core-site CORE_SITE 
-configure /usr/hdp/hadoop/etc/hadoop/hdfs-site HDFS_SITE 
+export CONF_DIR=/usr/hdp/hadoop/etc/hadoop
+init
+configure core-site
+configure hdfs-site
 /usr/hdp/hadoop/bin/hdfs namenode
