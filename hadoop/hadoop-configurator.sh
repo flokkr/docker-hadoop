@@ -41,12 +41,13 @@ function configure-from-defaults() {
 
 function init(){
    if [ ! -z "$CONSUL_LOCATION" ]; then
-      until $(curl --output /dev/null --silent --fail localhost:8500/v1/agent/self -o /tmp/self); do
+      until $(curl --output /dev/null --silent --fail $CONSUL_LOCATION/v1/agent/self -o /tmp/self); do
          echo "query the consul agent..."
          sleep 1
       done
       export ADVERTISED_ADDR=$(cat /tmp/self | jq -r '.Config.AdvertiseAddr')
       echo "Advertised address is $ADVERTISED_ADDR"
+   fi
 }
 
 function configure(){
