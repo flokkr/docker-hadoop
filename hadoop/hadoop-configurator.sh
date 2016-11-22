@@ -39,6 +39,16 @@ function configure-from-defaults() {
    [ -f $CONF_DIR/$1.xml ] || env-to-xml $CONF_DIR/$1.conf
 }
 
+function init(){
+   if [ ! -z "$CONSUL_LOCATION" ]; then
+      until $(curl --output /dev/null --silent --fail localhost:8500/v1/agent/self -o /tmp/self); do
+         echo "query the consul agent..."
+         sleep 1
+      done
+      export ADVERTISED_ADDR=$(cat /tmp/self | jq -r '.Config.AdvertiseAddr')
+      echo "Advertised address is $ADVERTISED_ADDR"
+}
+
 function configure(){
    if [ -z "$CONSUL_LOCATION" ]; then
       configure-from-defaults $1
