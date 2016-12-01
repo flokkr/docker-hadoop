@@ -7,7 +7,7 @@ services:
       image: elek/hbase-master
       hostname: master
       volumes:
-         - ./regionserver:/usr/hdp/hbase/conf/regionservers
+         - ./regionserver:/opt/hbase/conf/regionservers
 #   regionserver1:
    regionserver:
 #      environment:
