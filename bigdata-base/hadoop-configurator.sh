@@ -3,6 +3,7 @@
 function env-to-conf() {
    envname=`echo $1 | awk '{print toupper($1)}'`
    env | grep $envname |  sed -e "s/^$envname_//" | awk -F "=" '{gsub("_",".",$1);print tolower($1) "=" $2}' >> $CONF_DIR/$1.env
+   env | grep ${envname/-/_} |  sed -e "s/^${envname/-/_}_//" | awk -F "=" '{gsub("_",".",$1);print tolower($1) "=" $2}' >> $CONF_DIR/$1.env
 }
 
 function merge() {
