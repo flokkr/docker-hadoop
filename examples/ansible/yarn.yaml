@@ -1,10 +1,10 @@
 ---
 - hosts: node1
   tasks:
-     - name: namenode container
+     - name: resourcemanager container
        docker_container:
-          name: namenode
-          image: elek/hadoop-hdfs-namenode
+          name: resourcemanager
+          image: elek/hadoop-yarn-resourcemanager
           state: started
           network_mode: host
           volumes: "/grid/0/:/data"
@@ -13,12 +13,15 @@
              CORE_SITE_fs_default_name: "hdfs://{{gateway}}:9000"
              HDFS_SITE_dfs_namenode_rpc-address: "{{gateway}}:9000"
              HDFS_SITE_dfs_namenode_name_dir: /data/namenode
+             YARN_SITE_yarn.resourcemanager.hostname: "{{gateway}}"
+             YARN_SITE_yarn.nodemanager.vmem-check-enabled: false
+             YARN_SITE_yarn.nodemanager.pmem-check-enabled: false
 - hosts: all
   tasks:
-     - name: datanode container
+     - name: nodemanager container
        docker_container:
-          name: datanode
-          image: elek/hadoop-hdfs-datanode
+          name: nodemanager
+          image: elek/hadoop-yarn-nodemanager
           state: started
           network_mode: host
           volumes: "/grid/0/:/data"
@@ -27,4 +30,7 @@
              CORE_SITE_fs_default_name: "hdfs://{{gateway}}:9000"
              HDFS_SITE_dfs_namenode_rpc-address: "{{gateway}}:9000"
              HDFS_SITE_dfs_datanode_data_dir: /data/datanode
-             
+             YARN_SITE_yarn.resourcemanager.hostname: "{{gateway}}"
+             YARN_SITE_yarn.nodemanager.vmem-check-enabled: false
+             YARN_SITE_yarn.nodemanager.pmem-check-enabled: false
+             YARN_SITE_yarn.nodemanager.delete.debug-delay-sec: 600
