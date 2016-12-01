@@ -8,10 +8,13 @@ services:
       hostname: master
       volumes:
          - ./regionserver:/usr/hdp/hbase/conf/regionservers
-   regionserver1:
-      container_name: regionserver1
+#   regionserver1:
+   regionserver:
+#      environment:
+#         - HBASE_SITE_hbase_regionserver_hostname=regionserver1
+#      container_name: regionserver1
       image: elek/hbase-regionserver
-      hostname: regionserver1
+#      hostname: regionserver1
 networks:
    default:
       external:

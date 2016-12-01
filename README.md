@@ -19,7 +19,7 @@ docker network create --driver=bridge hadoop
 With the haddop network you can start the instances.
 
 ```
-cd compose/yarn
+cd examples/compose/yarn
 docker-compose up -d
 cd ../../compose/hdfs
 docker-compose up -d
