@@ -1,3 +1,0 @@
-hbase.rootdir=hdfs://namenode:9000/hbase
-hbase.cluster.distributed=true
-hbase.zookeeper.quorum=zookeeper
