@@ -6,4 +6,5 @@ source /opt/hadoop-configurator.sh
 initialize
 configure core-site
 configure hdfs-site
+configure yarn-site
 /opt/hadoop/bin/hdfs datanode
