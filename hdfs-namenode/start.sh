@@ -6,4 +6,5 @@ export CONF_DIR=/opt/hadoop/etc/hadoop
 initialize
 configure core-site
 configure hdfs-site
+configure yarn-site
 /opt/hadoop/bin/hdfs namenode

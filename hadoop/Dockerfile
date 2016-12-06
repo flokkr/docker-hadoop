@@ -1,4 +1,5 @@
-FROM elek/bigdata-base 
+FROM elek/bigdata-base:3   
+ENV CONF_DIR /opt/hadoop/etc/hadoop
 ADD url .
-RUN wget `cat url` && tar zxf hadoop-2.7.3.tar.gz && mv /opt/hadoop-2.7.3 /opt/hadoop && rm hadoop-2.7.3.tar.gz
+RUN wget `cat url` -O hadoop.tar.gz && tar zxf hadoop.tar.gz && rm hadoop.tar.gz && mv hadoop* hadoop
 RUN mv /opt/hadoop/etc/hadoop /opt/hadoop/etc/hadoop.orig && mkdir -p /opt/hadoop/etc/hadoop
