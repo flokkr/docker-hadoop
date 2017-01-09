@@ -1,5 +1,3 @@
-
-This repository contains docker images for basic hadoop cluster.
 ## Configuration loading
 
 The containers supports multiple configuration loading mechanism. (All of the configuration loading is defined in the [base-docker](https://github.com/elek/docker-bigdata-base) image. The configuration methods are stored in the ```/opt/configuration``` directory and could be selected by setting the environment variable `CONFIG_TYPE`
@@ -99,25 +97,3 @@ At the next step we download the required files one by one and convert to the de
 * ``CONFIG_SERVER_URL``: the url of the config server eg. http://localhost:8888
 * ``CONFIG_GROUP``: the profile part of the config server query (eg. hdfs, namenode, etc.)
 * ``CONF_DIR``: the destination directory
-## Running with docker compose
-
-For running the example compose files you need an external network with the name hadoop:
-
-```
-docker network create --driver=bridge hadoop
-````
-
-With the haddop network you can start the instances.
-
-```
-cd examples/compose/yarn
-docker-compose up -d
-cd ../../compose/hdfs
-docker-compose up -d
-```
-
-If you need you can scale up the datanode and nodemanagers:
-
-```
-sudo docker-compose scale datanode=2
-```
