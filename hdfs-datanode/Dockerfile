@@ -1,4 +1,4 @@
-FROM elek/hadoop
+FROM elek/hadoop:latest
 ADD defaults/* defaults/
 CMD ["/opt/hadoop/bin/hdfs datanode"]
 
