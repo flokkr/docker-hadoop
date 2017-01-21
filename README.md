@@ -1,4 +1,6 @@
 
+### WARNING: PRE VOTE VERSION
+
 This repository contains docker images for basic hadoop cluster.
 ## Configuration loading
 
