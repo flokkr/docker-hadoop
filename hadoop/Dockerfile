@@ -1,4 +1,4 @@
-FROM elek/bigdata-base:10
+FROM elek/bigdata-base:11
 ENV CONF_DIR /opt/hadoop/etc/hadoop
 ENV PATH $PATH:/opt/hadoop/bin
 ADD url .
