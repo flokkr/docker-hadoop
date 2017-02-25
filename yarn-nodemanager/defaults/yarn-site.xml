@@ -1,3 +1,0 @@
-yarn.resourcemanager.hostname: resourcemanager
-yarn.nodemanager.vmem-check-enabled: false
-yarn.nodemanager.aux-services: mapreduce_shuffle
