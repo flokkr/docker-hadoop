@@ -1,4 +1,0 @@
-dfs.replication=1
-dfs.permissions.superusergroup=admin
-dfs.namenode.rpc-address=namenode:9000
-

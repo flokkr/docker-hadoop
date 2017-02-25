@@ -1,6 +1,7 @@
 set -e
-docker build -t elek/hadoop hadoop
-docker build -t elek/hadoop-hdfs-datanode hdfs-datanode
-docker build -t elek/hadoop-hdfs-namenode hdfs-namenode
-docker build -t elek/hadoop-yarn-nodemanager yarn-nodemanager
-docker build -t elek/hadoop-yarn-resourcemanager yarn-resourcemanager
+DOCKER_TAG=${DOCKER_TAG:-latest}
+docker build -t elek/hadoop:$DOCKER_TAG hadoop
+docker build -t elek/hadoop-hdfs-datanode:$DOCKER_TAG hdfs-datanode
+docker build -t elek/hadoop-hdfs-namenode:$DOCKER_TAG hdfs-namenode
+docker build -t elek/hadoop-yarn-nodemanager:$DOCKER_TAG yarn-nodemanager
+docker build -t elek/hadoop-yarn-resourcemanager:$DOCKER_TAG yarn-resourcemanager
