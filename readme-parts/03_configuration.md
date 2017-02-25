@@ -1,6 +1,6 @@
 ## Configuration loading
 
-The containers supports multiple configuration loading mechanism. (All of the configuration loading is defined in the [base-docker](https://github.com/elek/docker-bigdata-base) image. The configuration methods are stored in the ```/opt/configuration``` directory and could be selected by setting the environment variable `CONFIG_TYPE`
+The containers supports multiple configuration loading mechanism. (All of the configuration loading is defined in the [base-docker](https://github.com/elek/docker-bigdata-base) image. The configuration methods are stored in the `/opt/configurer` and `/opt/configuration` directory and could be selected by setting the environment variable `CONFIG_TYPE`
 
 You can see various example configuration, ansible and docker-compose scripts at the main [umbrella repository](https://github.com/elek/bigdata-docker).
 
@@ -14,36 +14,19 @@ The three main configuration loading mechanis is:
 
 This is the default configuration.
 
-Main behaviours:
+Every configuration file is defined with a list of ```key: value``` pairs, even if they will be converted finally to hadoop xml format. The destination format is defined by the extensions (or by an additional format specifier)
 
- * Every configuration file is defined with a list of ```key: value``` pairs, even if they will be converted finally to hadoop xml format
- * The configfile creation process follows the steps:
-    * Copy the defaults file (from ```/opt/defaults```) to the destination dir (defined by the environment variable ```CONF_DIR```). These files contain key value pairs.
-    * Append the configuration parameter from the environment variable according to a naming convention. For example ```CORE-SITE_fs.default.name=hdfs://localhost:9000``` will be copied to the ```core-site.xml```
-    * Transform the result file (defaults + value from env) to the final configuration based on the extension. For example if the extension is xml then the key value pairs will be converted to HADOOP xml file format.
- 
+The generated files will be saved to the `$CONF_DIR` directory.
+
 #### Naming convention for set config keys from enviroment variables
 
 To set any configuration variable you shold follow the following pattern:
 
 ```
-NAME.EXTENSION.configkey=VALUE
-```
-  
-The extension could be any extension which has a predefined transformation (currently xml, yaml, properties, configuration, yaml, env, sh)
-
-In case there is a default configuration file in the ```/opt/defaults``` the ```EXTENSION``` part is optional as the extenasion (which is the base of the transformation selection) could be determined by name:
-
-```
-NAME.configkey=VALUE
-```
-  
-You can also you dot instead of underscores:
-
-```
 NAME.EXTENSION_configkey=VALUE
-NAME_configkey=VALUE
 ```
+
+The extension could be any extension which has a predefined transformation (currently xml, yaml, properties, configuration, yaml, env, sh, conf, cfg)
 
 examples:
 
@@ -53,47 +36,60 @@ HDFS-SITE_dfs_namenode_rpc-address: "localhost:9000"
 HBASE-SITE.XML_hbase_zookeeper_quorum: "localhost"
 ```
 
+In some rare cases the transformation and the extension should be different. For example the kafka `server.properties` should be in the format `key=value` which is the `cfg` transformation in our system. In that case you can postfix the extension with an additional format specifier:
+
+
+```
+NAME.EXTENSION!FORMAT_configkey=VALUE
+```
+
+For example:
+
+```
+SERVER.CONF!CFG_zookeeper.address=zookeeper:2181
+```
+
+#### Available transformation
+
+ * xml: HADOOP xml file format
+ * properties: key value pairs with ```:``` as separator
+ * cfg: key value pairs with ```=``` as separator
+ * conf: key value pairs with space as spearator (spark-defaults is an example)
+ * env: key value paris with ```=``` as separator
+ * sh: as the env but also includes the export keyword
+ * yaml: yaml file representation (only basic map and list are supported)
+ * yml: same
+
 #### Example
 
-The simple directory in the [bigdata-docker](https://github.com/elek/bigdata-docker) project contains a [docker-compose](https://github.com/elek/bigdata-docker/blob/master/simple/docker-compose.yaml) example using simple configuration loading
+The simple directory in the [bigdata-docker](https://github.com/elek/bigdata-docker) project contains a [docker-compose](https://github.com/elek/bigdata-docker/blob/master/simple/docker-compose.yaml) example using simple configuration loading.
 
 ### Consul config loading
 
 Could be activated with ```CONFIG_TYPE=consul```
 
 * The starter script list the configuration file names based on a consul key prefix. All the files will be downloaded from the consul key value store and the application process will be started with consul-template (enable an automatic restart in case of configuration file change)
-* ```CONSUL_PATH``` contains the prefix of the subtree in the consul key value store (default is ```conf```)
-* if ``CONSUL_PATH`` is not set you can use ``CONSUL_PREFIX`` and ``CONSUL_KEY`` values. As the default ``CONSUL_PREFIX`` is ``config``, it's enough to set the ``CONSUL_KEY`` if the configuration is under the key  ``config/something``
-* Consul server location could set with ```CONSUL_SERVER``` environment variable (default is ```localhost:8500```)
 
-### Spring conig server configuration loading
+* With a `config.ini` (also uploaded to consul) you can set execute additional processing _after_ the file is downloaded from the consul:
 
-In this case the configuration files will be downloaded from spring config server with the following convention:
+   1. transformation: will transform the files according specific transformation. Currently only one transformation available: _template_, which renders the final file via Jinja2 (environment variables are replace)
 
-Spring application is used as the config file name (eg. core-site.xml and as the ```-``` is prohibiited, ```core_site```)
-Spring profile is used as the configuration/component name (eg. hdfs or namenode)
+   2. post_write_hook: will execute  the downloaded files.
 
-The config server first download the list of the actual configuration files for the current CONFIG_TYPE. (spring application name is bigdata, profile is the $CONFIG_TYPE)
+Both the transformation and post_write_hook could be configured by the config.ini with file name based regular expression.
 
-For example:
+Example config.ini:
 
 ```
-configfiles:
-     hdfs:
-        core_site: xml
-        hdfs_site: xml
-        log4j: properties
-     hbase:
-        core_site: xml
-        hdfs_site: xml
-        log4j: properties
-        hbase: xml
-```
+[transformation]
+template=.*\.xml
 
-At the next step we download the required files one by one and convert to the desired file format (properties, xml, ...)
+[post_write_hook]
+execute=.*\.init
+```
 
 #### Configuration
 
-* ``CONFIG_SERVER_URL``: the url of the config server eg. http://localhost:8888
-* ``CONFIG_GROUP``: the profile part of the config server query (eg. hdfs, namenode, etc.)
-* ``CONF_DIR``: the destination directory
+ * `CONSUL_PATH` defines the root of the subtree where the configuration are downloaded from. The root could also contain a configuration `config.ini`. Default is `conf`
+
+ *  `CONSUL_KEY` is optional. It defines a subdirectory to download the the config files. If both `CONSUL_PATH` and `CONSUL_KEY` are defined, the config files will be downloaded from `$CONSUL_PATH/$CONSUL_KEY` but the config file will be read from `$CONSUL_PATH/config.ini`
