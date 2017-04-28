@@ -1,5 +1,5 @@
 set -e
-DOCKER_TAG=${DOCKER_TAG:-latest}
+DOCKER_TAG=${1:-latest}
 docker build -t elek/hadoop:$DOCKER_TAG hadoop
 docker build -t elek/hadoop-hdfs-datanode:$DOCKER_TAG hdfs-datanode
 docker build -t elek/hadoop-hdfs-namenode:$DOCKER_TAG hdfs-namenode
