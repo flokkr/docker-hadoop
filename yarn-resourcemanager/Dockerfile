@@ -1,3 +1,3 @@
-FROM elek/hadoop:latest
+FROM elek/hadoop:HDP-2.6.0
 CMD ["/opt/hadoop/bin/yarn resourcemanager"]
 
