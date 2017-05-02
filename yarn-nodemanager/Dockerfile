@@ -1,3 +1,3 @@
-FROM elek/hadoop:latest
+FROM elek/hadoop:HDP-2.5.5
 CMD ["/opt/hadoop/bin/yarn nodemanager"]
 
