@@ -1,12 +1,17 @@
 sudo: required
 
+env:
+  - VERSION=latest
+  - VERSION=2.8.1 URL=http://xenia.sote.hu/ftp/mirrors/www.apache.org/hadoop/common/hadoop-2.8.1/hadoop-2.8.1.tar.gz
+  - VERSION=2.8.0 URL=http://xenia.sote.hu/ftp/mirrors/www.apache.org/hadoop/common/hadoop-2.8.0/hadoop-2.8.0.tar.gz
+  - VERSION=2.7.3 URL=http://xenia.sote.hu/ftp/mirrors/www.apache.org/hadoop/common/hadoop-2.7.3/hadoop-2.7.3.tar.gz
+
 services:
    - docker
-   
+
 script:
    - make build
 
 after_success:
    - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
    - make deploy
-

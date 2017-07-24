@@ -1,3 +1,3 @@
-FROM elek/hadoop:latest
+FROM flokkr/hadoop:build
 CMD ["/opt/hadoop/bin/hdfs datanode"]
 
