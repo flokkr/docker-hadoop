@@ -18,3 +18,5 @@ deploy:
 	docker push flokkr/hadoop-hdfs-datanode:$(VERSION)
 	docker push flokkr/hadoop-resourcemanager:$(VERSION)
 	docker push flokkr/hadoop-nodemanager:$(VERSION)
+
+.PHONY: deploy build
