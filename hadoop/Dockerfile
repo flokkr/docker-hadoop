@@ -1,4 +1,5 @@
 FROM elek/bigdata-base:16
+RUN apk add --update --no-cache libstdc++
 VOLUME /data
 ENV CONF_DIR /opt/hadoop/etc/hadoop
 ENV PATH $PATH:/opt/hadoop/bin
