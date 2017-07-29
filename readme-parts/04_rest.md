@@ -1,7 +1,7 @@
 
 ## Examples
 
-For getting started use the incloded docker-compose file and start both hdfs and yarn clusters:
+For getting started use the included docker-compose file and start both hdfs and yarn clusters:
 
 ```
 docker-compose up -d

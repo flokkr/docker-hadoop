@@ -1,3 +1,4 @@
+
 ## Local build
 
 Use the included Makefile
@@ -6,4 +7,4 @@ Use the included Makefile
 make build
 ```
 
-You can adjust the VERSION and URL environment variables.
+You can adjust the VERSION and URL environment variables to build a specific version.
