@@ -17,6 +17,9 @@ services:
 script:
    - make build
 
-after_success:
+before_deploy:
    - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
-   - make deploy
+
+deploy:
+   - provider: script
+     script: make deploy
