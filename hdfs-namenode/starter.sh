@@ -5,3 +5,4 @@ if [ -n "$ENSURE_NAMENODE_DIR" ]; then
 	fi
 fi
 /opt/hadoop/bin/hdfs namenode
+exit $?
