@@ -1,4 +1,4 @@
-FROM flokkr/base:18
+FROM flokkr/base:19   
 RUN apk add --update --no-cache libstdc++
 VOLUME /data
 ENV CONF_DIR /opt/hadoop/etc/hadoop 
