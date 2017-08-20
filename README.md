@@ -1,125 +1,18 @@
+# Apache Hadoop docker images
 
-This repository contains docker images for basic hadoop cluster.
+These images are part of the bigdata [docker image series](https://github.com/flokkr). All of the images use the same [base docker image](https://github.com/flokkr/docker-baseimage) which contains advanced configuration loading. 
 
-## Configuration and extensions
+It supports configuration based on environment variables (using specific naming convention), downloaded from consul and other plugins (for example to generate kerberos keystabs).
 
-The flokkr containers support multiple configuration loading mechanism and various extensions. All of the these are defined in the [flokkr baseimage](https://github.com/flokkr/docker-baseimage) and could be activated by environment variables.
+For more detailed instruction to configure the images see the [README](https://github.com/flokkr/docker-base/blob/master/README.md) in the flokkr/docker-base repository.
 
-The available plugins:
+## Getting started
 
-| Name      | Description                              |
-| --------- | ---------------------------------------- |
-| envtoconf | **Simple onfiguration loading**, suggested for stand-alone docker files. Converts environment variables to xml/property configuration based on naming convention |
-| consul    | **Complex configuration loading from consul**, downloads configuration from consul server and restart when the configuration is changed. Suggested for multi-host setups. |
-| btrace    | Instruments the java option with custom Btrace script (with modifying the JAVA_OPTS) |
+### Run
 
-### Plugin details
+The easiest way to run a storm cluster is just use the included ```docker-compose.yaml``` file. 
 
-#### ENVTOCONF: Simple configuration loading
-
-Could be activated by ```CONFIG_TYPE=simple``` settings, but it's the default.
-
-Every configuration could be defined with environment variables, and they will be converted finally to *hadoop xml, properties, conf* or other format. The destination format (and the destination file name) is defined with the name of the environment variable according to a naming convention.
-
-The generated files will be saved to the `$CONF_DIR` directory.
-
-The source code of the converter utility can be found in a [separated repository](https://github.com/elek/envtoconf).
-
-##### Naming convention for set config keys from enviroment variables
-
-To set any configuration variable you shold follow the following pattern:
-
-```
-NAME.EXTENSION_configkey=VALUE
-```
-
-The extension could be any extension which has a predefined transformation (currently xml, yaml, properties, configuration, yaml, env, sh, conf, cfg)
-
-examples:
-
-```
-CORE-SITE_fs.default.name: "hdfs://localhost:9000"
-HDFS-SITE_dfs_namenode_rpc-address: "localhost:9000"
-HBASE-SITE.XML_hbase_zookeeper_quorum: "localhost"
-```
-
-In some rare cases the transformation and the extension should be different. For example the kafka `server.properties` should be in the format `key=value` which is the `cfg` transformation in our system. In that case you can postfix the extension with an additional format specifier:
-
-
-```
-NAME.EXTENSION!FORMAT_configkey=VALUE
-```
-
-For example:
-
-```
-SERVER.CONF!CFG_zookeeper.address=zookeeper:2181
-```
-
-##### Available transformation
-
-*  xml: HADOOP xml file format
-
-*  properties: key value pairs with ```:``` as separator
-
-*  cfg: key value pairs with ```=``` as separator
-
-*  conf: key value pairs with space as spearator (spark-defaults is an example)
-
-*  env: key value paris with ```=``` as separator
-
-*  sh: as the env but also includes the export keyword
-
-     ##### Configuration reference
-
-     The plugin itself could be configured with the following environment variables.
-
-   | Name        | Default                                  | Description                              |
-   | ----------- | ---------------------------------------- | ---------------------------------------- |
-   | CONF_DIR    | *Set in the docker container definitions* | The location where the configuration files will be saved. |
-   | CONFIG_TYPE | simple                                   | For compatibility reason. If the value is simple, the conversion is active. |
-
-#### CONSUL: Consul config loading
-
-Could be activated with ```CONFIG_TYPE=consul```
-
-* The starter script list the configuration file names based on a consul key prefix. All the files will be downloaded from the consul key value store and the application process will be started with consul-template (enable an automatic restart in case of configuration file change)
-
-The source code of the consul based configuration loading and launcher is available at the [elek/consul-launcher](https://github.com/elek/consul-launcher) repository.
-
-| Name        | Default                                  | Description                              |
-| ----------- | ---------------------------------------- | ---------------------------------------- |
-| CONF_DIR    | *Set in the docker container definitions* | The location where the configuration files will be saved. |
-| CONFIG_TYPE | consul                                   | For compatibility reason. If the value is consul, the consul based configuration handling is active. |
-| CONSUL_PATH | conf                                     | The path of the subtree in the consul where the configurations are. |
-| CONSUL_KEY  |                                          | The  path where the configuration for this container should be downloaded from. The effective path will be ```$CONSUL_PATH/$CONSUL_KEY``` |
-
-#### BTRACE: btrace instrumentation
-
-Could be enabled with setting ```BTRACE_ENABLED=true``` or just setting ```BTRACE_SCRIPT```.
-
-It adds btrace javaagent configuration to the JAVA_OPTS (or any other opts defined by BTRACE_OPTS_VAR). The standard output is redirected to ```/tmp/output.log```, and the btrace output will be displayed on the standard output (over a ```/tmp/btrace.out``` file)
-
-| Name            | Default                                  | Description                              |
-| --------------- | ---------------------------------------- | ---------------------------------------- |
-| CONF_DIR        | *Set in the docker container definitions* | The location where the configuration files will be saved. |
-| BTRACE_SCRIPT   | <notset>                                 | The location of the compiled btrace script. Coule be absolute or relative to the ```/opt/plugins/020_btrace/btrace``` |
-| BTRACE_OPTS_VAR | JAVA_OPTS                                | The name of the shell variable where the agent parameters should be injected. |
-
-
-#### Configuration
-
-* `CONSUL_PATH` defines the root of the subtree where the configuration are downloaded from. The root could also contain a configuration `config.ini`. Default is `conf`
-
-* `CONSUL_KEY` is optional. It defines a subdirectory to download the the config files. If both `CONSUL_PATH` and `CONSUL_KEY` are defined, the config files will be downloaded from `$CONSUL_PATH/$CONSUL_KEY` but the config file will be read from `$CONSUL_PATH/config.ini`
-
-## Examples
-
-For getting started use the included docker-compose file and start both hdfs and yarn clusters:
-
-```
-docker-compose up -d
-```
+Checkout the repository and do a ```docker-compose up -d``` The storm UI will be available at http://localhost:8080
 
 You can adjust the settings in the compose-config file.
 
@@ -134,32 +27,22 @@ To check namenode/resourcemanager use the published ports:
 * Resourcemanager: http://localhost:8080
 * Namenode: http://localhost:50070 (in case of hadoop 2.x)
 
-## Smoketest
+### Smoketest
 
 ```
 docker-compose exec resourcemanager /opt/hadoop/bin/yarn jar /opt/hadoop/share/hadoop/mapreduce/hadoop-mapreduce-examples-2.8.1.jar pi 16 1000
-```
 
-## Versioning policy
+### Cluster
 
-  The _latest_ tag points to the latest configuration loading and the latest stable apache version.
+For more detailed examples check the other repositories under the flokkr organization with [runtime-](https://github.com/search?q=org%3Aflokkr+runtime) prefix.
 
-  If there is plain version tag without prefix it is synchronized with the version of the original apache software.
+There are more detailed examples with using:
 
-  It there is a prefix (eg. HDP) it includes a specific version from a specific vendor distribution.
+* [docker-compose](https://github.com/flokkr/runtime-compose) (single-host)
+* [docker-swarm](https://github.com/flokkr/runtime-swarm)
+* [consul and docker-compose](https://github.com/flokkr/runtime-consul)  (multi-host)
+* [consul and nomad](https://github.com/flokkr/runtime-nomad) (multi-host)
+* [kubernetes](https://github.com/flokkr/runtime-kubernetes)
 
-  As the configuration loading in the base image is constantly evolving even the tags of older releases may be refreshed over the time.
-
-  Images are build with travis with matrix parameters and uploaded to the docker hub from travis.
-
-## Local build
-
-Use the included Makefile
-
-```
-make build
-```
-
-You can adjust the VERSION and URL environment variables to build a specific version.
 
 
