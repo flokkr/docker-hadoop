@@ -31,6 +31,7 @@ To check namenode/resourcemanager use the published ports:
 
 ```
 docker-compose exec resourcemanager /opt/hadoop/bin/yarn jar /opt/hadoop/share/hadoop/mapreduce/hadoop-mapreduce-examples-2.8.1.jar pi 16 1000
+```
 
 ### Cluster
 
