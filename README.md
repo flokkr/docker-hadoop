@@ -4,7 +4,7 @@ These images are part of the bigdata [docker image series](https://github.com/fl
 
 It supports configuration based on environment variables (using specific naming convention), downloaded from consul and other plugins (for example to generate kerberos keystabs).
 
-For more detailed instruction to configure the images see the [README](https://github.com/flokkr/docker-base/blob/master/README.md) in the flokkr/docker-base repository.
+For more detailed instruction to configure the images see the [README](https://github.com/flokkr/docker-baseimage/blob/master/README.md) in the flokkr/docker-baseimage repository.
 
 ## Getting started
 
