@@ -9,7 +9,7 @@ services:
       env_file:
         - ./compose-config
       environment:
-          ENSURE_NAMENODE_DIR: "/tmp/hadoop-root/dfs/name"
+          ENSURE_NAMENODE_DIR: "/tmp/hadoop-hdfs/dfs/name"
    datanode:
       image: flokkr/hadoop-hdfs-datanode:latest
       links:

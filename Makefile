@@ -5,6 +5,8 @@ URL ?= "http://xenia.sote.hu/ftp/mirrors/www.apache.org/hadoop/common/hadoop-2.8
 
 build:
 	echo $(URL) > hadoop/url
+	docker build -t flokkr/hadoop-runner:$(VERSION) runner
+	docker tag flokkr/hadoop-runner:$(VERSION) flokkr/hadoop-runner:build
 	docker build -t flokkr/hadoop:$(VERSION) hadoop
 	docker tag flokkr/hadoop:$(VERSION) flokkr/hadoop:build
 	docker build -t flokkr/hadoop-hdfs-namenode:$(VERSION) hdfs-namenode
@@ -13,6 +15,7 @@ build:
 	docker build -t flokkr/hadoop-yarn-nodemanager:$(VERSION) yarn-nodemanager
 
 deploy:
+	docker push flokkr/hadoop-runner:$(VERSION)
 	docker push flokkr/hadoop:$(VERSION)
 	docker push flokkr/hadoop-hdfs-namenode:$(VERSION)
 	docker push flokkr/hadoop-hdfs-datanode:$(VERSION)
