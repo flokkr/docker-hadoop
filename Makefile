@@ -1,7 +1,7 @@
 
 
 VERSION ?= latest
-URL ?= "http://xenia.sote.hu/ftp/mirrors/www.apache.org/hadoop/common/hadoop-2.8.1/hadoop-2.8.1.tar.gz"
+URL ?= "https://www-eu.apache.org/dist/hadoop/common/hadoop-3.0.0-beta1/hadoop-3.0.0-beta1.tar.gz"
 
 build:
 	echo $(URL) > hadoop/url
