@@ -1,4 +1,4 @@
-FROM flokkr/base:22
+FROM flokkr/base:development
 RUN apk add --update --no-cache libstdc++
 RUN adduser -h /opt/ -s /bin/bash -G flokkr -D hadoop && chown hadoop /opt
 USER hadoop
@@ -8,4 +8,4 @@ ADD 012_namenodeformat /opt/plugins/012_namenodeformat
 RUN sudo chmod o+x /opt/plugins/012_namenodeformat/namenodeformat.sh
 ENV CONF_DIR /opt/hadoop/etc/hadoop
 ENV PATH $PATH:/opt/hadoop/bin
-ENV BTRACE_OPTS_VAR HADOOP_OPTS
+ENV JAVA_OPTS_VAR HADOOP_OPTS
