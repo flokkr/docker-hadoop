@@ -1,8 +1,7 @@
 sudo: required
 
 env:
-  - VERSION=latest URL=https://www-eu.apache.org/dist/hadoop/common/hadoop-3.0.0-beta1/hadoop-3.0.0-beta1.tar.gz
-  - VERSION=3.0.0-beta1 URL=https://www-eu.apache.org/dist/hadoop/common/hadoop-3.0.0-beta1/hadoop-3.0.0-beta1.tar.gz
+  - VERSION=ozone URL=https://ci.anzix.net/job/hadoop-ozone/lastSuccessfulBuild/artifact/hadoop-dist/target/hadoop-3.1.0-SNAPSHOT.tar.gz
 
 services:
    - docker
