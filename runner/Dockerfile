@@ -1,4 +1,4 @@
-FROM flokkr/base:development
+FROM flokkr/base:25
 RUN apk add --update --no-cache libstdc++
 RUN adduser -h /opt/ -s /bin/bash -G flokkr -D hadoop && chown hadoop /opt
 USER hadoop
