@@ -9,9 +9,6 @@ env:
   - VERSION=HDP-2.5.3 URL=http://public-repo-1.hortonworks.com/HDP/ubuntu14/2.x/updates/2.5.3.0/tars/hadoop/hadoop-2.7.3.2.5.3.0-37.tar.gz
   - VERSION=HDP-2.5.5 URL=http://public-repo-1.hortonworks.com/HDP/ubuntu14/2.x/updates/2.5.5.0/tars/hadoop/hadoop-2.7.3.2.5.5.0-157.tar.gz
   - VERSION=HDP-2.6.0 URL=http://public-repo-1.hortonworks.com/HDP/ubuntu14/2.x/updates/2.6.0.3/tars/hadoop/hadoop-2.7.3.2.6.0.3-8.tar.gz
-  - VERSION=3.0.0-alpha2 URL=http://xenia.sote.hu/ftp/mirrors/www.apache.org/hadoop/common/hadoop-3.0.0-alpha2/hadoop-3.0.0-alpha2.tar.gz
-  - VERSION=3.0.0-alpha3 URL=http://xenia.sote.hu/ftp/mirrors/www.apache.org/hadoop/common/hadoop-3.0.0-alpha3/hadoop-3.0.0-alpha3.tar.gz
-  - VERSION=ozone URL=http://kv.anzix.net/hadoop-3.0.0-beta1-SNAPSHOT.tar.gz
 
 services:
    - docker
