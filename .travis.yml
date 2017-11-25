@@ -2,13 +2,9 @@ sudo: required
 
 env:
   - VERSION=latest
-  - VERSION=2.8.1 URL=http://xenia.sote.hu/ftp/mirrors/www.apache.org/hadoop/common/hadoop-2.8.1/hadoop-2.8.1.tar.gz
-  - VERSION=2.8.0 URL=http://xenia.sote.hu/ftp/mirrors/www.apache.org/hadoop/common/hadoop-2.8.0/hadoop-2.8.0.tar.gz
-  - VERSION=2.7.4 URL=https://mirrors.ocf.berkeley.edu/apache/hadoop/common/hadoop-2.7.4/hadoop-2.7.4.tar.gz
-  - VERSION=2.7.3 URL=http://xenia.sote.hu/ftp/mirrors/www.apache.org/hadoop/common/hadoop-2.7.3/hadoop-2.7.3.tar.gz
-  - VERSION=HDP-2.5.3 URL=http://public-repo-1.hortonworks.com/HDP/ubuntu14/2.x/updates/2.5.3.0/tars/hadoop/hadoop-2.7.3.2.5.3.0-37.tar.gz
-  - VERSION=HDP-2.5.5 URL=http://public-repo-1.hortonworks.com/HDP/ubuntu14/2.x/updates/2.5.5.0/tars/hadoop/hadoop-2.7.3.2.5.5.0-157.tar.gz
-  - VERSION=HDP-2.6.0 URL=http://public-repo-1.hortonworks.com/HDP/ubuntu14/2.x/updates/2.6.0.3/tars/hadoop/hadoop-2.7.3.2.6.0.3-8.tar.gz
+  - VERSION=2.9.0 URL=https://archive.apache.org/dist/hadoop/core/hadoop-2.9.0/hadoop-2.9.0.tar.gz
+  - VERSION=2.8.2 URL=https://archive.apache.org/dist/hadoop/core/hadoop-2.8.2/hadoop-2.8.2.tar.gz
+  - VERSION=2.7.4 URL=https://archive.apache.org/dist/hadoop/core/hadoop-2.7.4/hadoop-2.7.4.tar.gz
 
 services:
    - docker
