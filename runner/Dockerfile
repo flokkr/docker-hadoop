@@ -1,5 +1,5 @@
 FROM flokkr/base:25
-RUN apk add --update --no-cache libstdc++
+RUN apk add --update --no-cache libstdc++ findutils && rm -rf /var/cache/apk/*
 RUN adduser -h /opt/ -s /bin/bash -G flokkr -D hadoop && chown hadoop /opt
 USER hadoop
 VOLUME /data
