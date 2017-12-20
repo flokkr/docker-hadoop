@@ -1,7 +1,7 @@
 
 
 VERSION ?= latest
-URL ?= "https://www-eu.apache.org/dist/hadoop/common/hadoop-3.0.0-beta1/hadoop-3.0.0-beta1.tar.gz"
+URL ?= "https://www-eu.apache.org/dist/hadoop/common/hadoop-3.0.0/hadoop-3.0.0.tar.gz"
 
 build:
 	echo $(URL) > hadoop/url
