@@ -10,7 +10,7 @@ DOWNLOADED_FILE ?= $(WORKDIR)/hadoop.tar.gz
 build: $(HADOOP_PRODUCT_DIR)
 	docker build -t flokkr/hadoop-runner:$(VERSION) runner
 	docker tag flokkr/hadoop-runner:$(VERSION) flokkr/hadoop-runner:build
-	docker build --build-arg hadoop_dir=$(HADOOP_PRODUCT_DIR) -t flokkr/hadoop:$(VERSION) hadoop
+	docker build --build-arg hadoop_dir=$(PRODUCT_DIR) -t flokkr/hadoop:$(VERSION) hadoop
 	docker tag flokkr/hadoop:$(VERSION) flokkr/hadoop:build
 	docker build -t flokkr/hadoop-hdfs-namenode:$(VERSION) hdfs-namenode
 	docker build -t flokkr/hadoop-hdfs-datanode:$(VERSION) hdfs-datanode
