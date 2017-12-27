@@ -9,9 +9,11 @@ REPO ?= $(REPO)
 
 build: $(HADOOP_PRODUCT_DIR)
 	docker build -t $(REPO)/hadoop-runner:$(VERSION) runner
-	docker tag $(REPO)/hadoop-runner:$(VERSION) $(REPO)/hadoop-runner:build
+	#Tag the current runnier independent from the version
+	docker tag $(REPO)/hadoop-runner:$(VERSION) flokkr/hadoop-runner:build
 	docker build --build-arg hadoop_dir=$(PRODUCT_DIR) -t $(REPO)/hadoop:$(VERSION) hadoop
-	docker tag $(REPO)/hadoop:$(VERSION) $(REPO)/hadoop:build
+	#Tag the base image with hadoop, too
+	docker tag $(REPO)/hadoop:$(VERSION) flokkr/hadoop:build
 	docker build -t $(REPO)/hadoop-hdfs-namenode:$(VERSION) hdfs-namenode
 	docker build -t $(REPO)/hadoop-hdfs-datanode:$(VERSION) hdfs-datanode
 	docker build -t $(REPO)/hadoop-yarn-resourcemanager:$(VERSION) yarn-resourcemanager
