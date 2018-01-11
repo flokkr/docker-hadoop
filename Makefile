@@ -2,8 +2,8 @@
 
 VERSION ?= ozone  
 URL ?= "https://ci.anzix.net/job/hadoop-ozone/lastSuccessfulBuild/artifact/hadoop-dist/target/hadoop-3.1.0-SNAPSHOT.tar.gz"
-WORKDIR = hadoop/workdir
-PRODUCT_DIR = $(WORKDIR)/hadoop
+WORKDIR ?= hadoop/workdir
+PRODUCT_DIR ?= $(WORKDIR)/hadoop
 DOWNLOADED_FILE ?= $(WORKDIR)/hadoop.tar.gz
 REPO ?= $(REPO)
 
