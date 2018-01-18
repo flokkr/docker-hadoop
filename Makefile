@@ -6,8 +6,6 @@ build:
 	docker build -t flokkr/hadoop-runner:$(VERSION) runner
 	docker tag flokkr/hadoop-runner:$(VERSION) flokkr/hadoop-runner:build
 	docker build -t flokkr/hadoop:$(VERSION) hadoop
-	docker tag flokkr/hadoop:$(VERSION) flokkr/hadoop:build
-
 deploy:
 	docker push flokkr/hadoop-runner:$(VERSION)
 	docker push flokkr/hadoop:$(VERSION)
