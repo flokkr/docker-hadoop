@@ -17,4 +17,17 @@ if [ -n "$ENSURE_STANDBY_NAMENODE_DIR" ]; then
     fi
 fi
 
+if [ -n "$ENSURE_SCM_INITIALIZED" ]; then
+   if [ ! -f "$ENSURE_SCM_INITIALIZED" ]; then
+      /opt/hadoop/bin/hdfs scm -init
+        fi
+fi
+
+
+if [ -n "$ENSURE_KSM_INITIALIZED" ]; then
+   if [ ! -f "$ENSURE_KSM_INITIALIZED" ]; then
+      /opt/hadoop/bin/hdfs ksm -createObjectStore
+        fi
+fi
+
 call-next-plugin "$@"
