@@ -19,15 +19,23 @@ fi
 
 if [ -n "$ENSURE_SCM_INITIALIZED" ]; then
    if [ ! -f "$ENSURE_SCM_INITIALIZED" ]; then
-      /opt/hadoop/bin/hdfs scm -init
-        fi
+     if [ -f "/opt/hadoop/bin/oz" ]; then
+        /opt/hadoop/bin/oz scm -init
+      else
+        /opt/hadoop/bin/hdfs scm -init
+      fi
+   fi
 fi
 
 
 if [ -n "$ENSURE_KSM_INITIALIZED" ]; then
    if [ ! -f "$ENSURE_KSM_INITIALIZED" ]; then
+     if [ -f "/opt/hadoop/bin/oz" ]; then
+      /opt/hadoop/bin/oz ksm -createObjectStore
+    else
       /opt/hadoop/bin/hdfs ksm -createObjectStore
-        fi
+    fi
+   fi
 fi
 
 call-next-plugin "$@"
