@@ -19,8 +19,8 @@ fi
 
 if [ -n "$ENSURE_SCM_INITIALIZED" ]; then
    if [ ! -f "$ENSURE_SCM_INITIALIZED" ]; then
-     if [ -f "/opt/hadoop/bin/oz" ]; then
-        /opt/hadoop/bin/oz scm -init
+     if [ -f "/opt/hadoop/bin/ozone" ]; then
+        /opt/hadoop/bin/ozone scm -init
       else
         /opt/hadoop/bin/hdfs scm -init
       fi
@@ -30,8 +30,8 @@ fi
 
 if [ -n "$ENSURE_KSM_INITIALIZED" ]; then
    if [ ! -f "$ENSURE_KSM_INITIALIZED" ]; then
-     if [ -f "/opt/hadoop/bin/oz" ]; then
-      /opt/hadoop/bin/oz ksm -createObjectStore
+     if [ -f "/opt/hadoop/bin/ozone" ]; then
+      /opt/hadoop/bin/ozone ksm -createObjectStore
     else
       /opt/hadoop/bin/hdfs ksm -createObjectStore
     fi
