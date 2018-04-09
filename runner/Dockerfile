@@ -1,4 +1,5 @@
-FROM flokkr/base:28
+ARG BASE=29
+FROM flokkr/base:${BASE}
 RUN apk add --update --no-cache libstdc++ findutils ncurses && rm -rf /var/cache/apk/*
 RUN adduser -h /opt/ -s /bin/bash -G flokkr -D hadoop && chown hadoop /opt
 USER hadoop

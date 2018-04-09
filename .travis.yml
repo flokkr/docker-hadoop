@@ -1,20 +1,21 @@
 sudo: required
 
 env:
-  - VERSION=latest URL=https://www-eu.apache.org/dist/hadoop/common/hadoop-3.1.0/hadoop-3.1.0.tar.gz
-  - VERSION=3.0.1 URL=https://www-eu.apache.org/dist/hadoop/common/hadoop-3.0.1/hadoop-3.0.1.tar.gz
-  - VERSION=3.1.0 URL=https://www-eu.apache.org/dist/hadoop/common/hadoop-3.1.0/hadoop-3.1.0.tar.gz
+  - VERSION=3.1.0 TAG=latest
+  - VERSION=3.0.1 TAG=3.0.1
+  - VERSION=3.1.0 TAG=3.1.0
+
 services:
    - docker
 
 script:
-   - make build
+   - ./build.sh -t $TAG -v $VERSION
 
 before_deploy:
    - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
 
 deploy:
    - provider: script
-     script: make deploy
+     script: ./build.sh deploy
      on:
         all_branches: true
