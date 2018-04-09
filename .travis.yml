@@ -9,13 +9,13 @@ services:
    - docker
 
 script:
-   - ./build.sh -t $TAG -v $VERSION
+   - ./build.sh -t $TAG -v $VERSION build
 
 before_deploy:
    - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
 
 deploy:
    - provider: script
-     script: ./build.sh deploy
+     script: ./build.sh -t $TAG -v $VERSION deploy
      on:
         all_branches: true
