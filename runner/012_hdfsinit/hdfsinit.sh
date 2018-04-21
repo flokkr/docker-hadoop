@@ -1,5 +1,4 @@
 #/usr/bin/env bash
-set -x
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 if [ -n "$ENSURE_NAMENODE_DIR" ]; then
    CLUSTERID_OPTS=""
@@ -10,14 +9,10 @@ if [ -n "$ENSURE_NAMENODE_DIR" ]; then
       /opt/hadoop/bin/hdfs namenode -format -force $CLUSTERID_OPTS
    fi
    if [ "$NAMENODE_INIT" ]; then
-      hdfs namenode &
+      hdfs namenode -Ddfs.namenode.rpc-address=127.0.0.1:1111 &
 		NNPID=$!
       for i in `seq 30` ; do
-   
-		   NAMENODE_ADDRESS=$(hdfs getconf -confkey dfs.namenode.rpc-address)
-		   NN_WAITFOR_HOST=$(printf "%s\n" "$NAMENODE_ADDRESS"| cut -d : -f 1)
-         NN_WAITFOR_PORT=$(printf "%s\n" "$NAMENODE_ADDRESS"| cut -d : -f 2)
-         nc -z "$NN_WAITFOR_HOST" "$NN_WAITFOR_PORT" > /dev/null 2>&1
+         nc -z "127.0.0.1" "1111" > /dev/null 2>&1
 
          result=$?
          if [ $result -eq 0 ] ; then
