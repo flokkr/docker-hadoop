@@ -11,12 +11,10 @@ services:
         - ./compose-config
       environment:
           NAMENODE_INIT: "hdfs dfs -chmod 777 /"
-          ENSURE_NAMENODE_DIR: "/tmp/hadoop-hdfs/dfs/name"
+          ENSURE_NAMENODE_DIR: "/tmp/hadoop-hadoop/dfs/name"
    datanode:
       command: ["hdfs","datanode"]
       image: flokkr/hadoop:latest
-      links:
-         - namenode
       env_file:
         - ./compose-config
    resourcemanager:
@@ -30,8 +28,5 @@ services:
    nodemanager:
       image: flokkr/hadoop-yarn-nodemanager:latest
       command: ["yarn", "nodemanager"]
-      links:
-         - resourcemanager
-         - namenode
       env_file:
         - ./compose-config
