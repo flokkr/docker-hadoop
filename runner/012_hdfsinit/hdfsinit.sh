@@ -45,6 +45,15 @@ if [ -n "$ENSURE_SCM_INITIALIZED" ]; then
    fi
 fi
 
+if [ -n "$ENSURE_OM_INITIALIZED" ]; then
+   if [ ! -f "$ENSURE_OM_INITIALIZED" ]; then
+      # To make sure SCM is running in dockerized environment we will sleep
+      # Could be removed after HDFS-13203
+      echo "Waiting 15 seconds for SCM startup"
+      sleep 15
+      /opt/hadoop/bin/ozone om -createObjectStore
+   fi
+fi
 
 if [ -n "$ENSURE_KSM_INITIALIZED" ]; then
    if [ ! -f "$ENSURE_KSM_INITIALIZED" ]; then
