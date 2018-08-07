@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -x 
+set -e 
 
 build() {
 	echo ${URL} > hadoop/url
@@ -31,7 +31,11 @@ while getopts ":v:t:" opt; do
   esac
 done
 
-export URL=https://www-eu.apache.org/dist/hadoop/common/hadoop-$HADOOP_VERSION/hadoop-$HADOOP_VERSION.tar.gz
-
+if [ "$HADOOP_DOWNLOAD_URL" ]; then
+  URL=$HADOOP_DOWNLOAD_URL
+else
+  URL="https://www-eu.apache.org/dist/hadoop/common/hadoop-$HADOOP_VERSION/hadoop-$HADOOP_VERSION.tar.gz"
+fi
+export URL
 shift $(($OPTIND -1))
 eval $*
