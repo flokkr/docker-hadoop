@@ -4,7 +4,6 @@ package main
 
 import (
 	"github.com/getlantern/errors"
-	"io/ioutil"
 	"fmt"
 	"github.com/magefile/mage/sh"
 	"net/http"
@@ -15,16 +14,16 @@ var downloadPath = "hadoop/common/hadoop-%s/hadoop-%s.tar.gz"
 
 func versions() map[string][]string {
 	versions := make(map[string][]string)
-	versions["3.2.0"] = []string{"latest", "3.2.0", "3.2", "3"}
-	versions["3.1.2"] = []string{"3.1.2", "3.1"}
-	versions["3.1.1"] = []string{"3.1.1"}
-	versions["3.1.0"] = []string{"3.1.0"}
-	versions["3.0.3"] = []string{"3.0.3", "3.0"}
+	versions["3.2.1"] = []string{"latest", "3.2.1", "3.2", "3"}
+//	versions["3.1.2"] = []string{"3.1.2", "3.1"}
+//	versions["3.1.1"] = []string{"3.1.1"}
+//	versions["3.1.0"] = []string{"3.1.0"}
+//	versions["3.0.3"] = []string{"3.0.3", "3.0"}
 	return versions
 }
 
-func buildImage(tag string, dir string) {
-	sh.Run("docker", "build", "-t", tag, dir)
+func buildImage(tag string, dir string, url string) {
+    sh.Run("docker", "build", "-t", tag, "--build-arg", "URL="+url, dir)
 }
 
 func getApacheDownloadUrl(path string) (string, error) {
@@ -56,29 +55,21 @@ func buildContainer(version string, tags []string) error {
 	if err != nil {
 		return err
 	}
-	err = ioutil.WriteFile("hadoop/url", []byte(url), 0644)
 	if err != nil {
 		return err
 	}
-	buildImage("flokkr/hadoop:build", "hadoop")
+	buildImage("flokkr/hadoop:build", ".", url)
 	for _, tag := range tags {
 		sh.Run("docker", "tag", "flokkr/hadoop:build", "flokkr/hadoop:"+tag)
-		sh.Run("docker", "tag", "flokkr/hadoop:build", "quay.io/flokkr/hadoop:"+tag)
 	}
 	return nil
 }
 
 func Build() error {
-	buildImage("flokkr/hadoop-runner:build", "runner")
 	for version, tags := range versions() {
 		err := buildContainer(version, tags)
 		if err != nil {
 			return err
-		}
-		buildImage("flokkr/hadoop-test:build", "test")
-		for _, tag := range tags {
-			sh.Run("docker", "tag", "flokkr/hadoop:build", "flokkr/hadoop-test:"+tag)
-			sh.Run("docker", "tag", "flokkr/hadoop:build", "quay.io/flokkr/hadoop-test:"+tag)
 		}
 	}
 	return nil
@@ -88,9 +79,6 @@ func Deploy() error {
 	for _, tags := range versions() {
 		for _, tag := range tags {
 			deployImage("flokkr/hadoop:" + tag)
-			deployImage("flokkr/hadoop-test:" + tag)
-			deployImage("quay.io/flokkr/hadoop:" + tag)
-			deployImage("quay.io/flokkr/hadoop-test:" + tag)
 		}
 	}
 	return nil
