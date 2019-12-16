@@ -26,7 +26,7 @@ services:
       env_file:
         - ./compose-config
    nodemanager:
-      image: flokkr/hadoop-yarn-nodemanager:latest
+      image: flokkr/hadoop:latest
       command: ["yarn", "nodemanager"]
       env_file:
         - ./compose-config
