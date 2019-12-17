@@ -14,9 +14,9 @@
 # limitations under the License.
 name: build
 on:
-  - push
-      branches:
-        - master
+  push
+    branches:
+      - master
 jobs:
   build:
     name: build and deploy
