@@ -1,12 +1,11 @@
 name: hadoop
-basetag: 34
+basetag: 35
 urlpath: hadoop/common/hadoop-%s/hadoop-%s.tar.gz
 exclude:
  - share/doc
 containers:
    - flokkr/hadoop
 git: https://github.com/flokkr/docker-hadoop
-base: 33
 versions:
   - 3.2.1
   - 3.1.2
