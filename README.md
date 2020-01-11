@@ -27,10 +27,6 @@ To check namenode/resourcemanager use the published ports:
 * Resourcemanager: http://localhost:8088
 * Namenode: http://localhost:50070 (in case of hadoop 2.x)
 
-### FAQ
-
-# Unable to start due to port issues on Windows
-Change port for Host mapping in docker-compose.yaml from 9870 to something else like 3333 (example - 3333:9870).
 
 ### Smoketest
 
@@ -51,3 +47,9 @@ There are more detailed examples with using:
 
 
 
+```
+
+## FAQ
+
+### Unable to start due to port issues on Windows
+Change port for Host mapping in docker-compose.yaml from 9870 to something else like 3333 (example - 3333:9870).
