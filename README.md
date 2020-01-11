@@ -4,7 +4,7 @@ These images are part of the bigdata [docker image series](https://github.com/fl
 
 It supports configuration based on environment variables (using specific naming convention), downloaded from consul and other plugins (for example to generate kerberos keystabs).
 
-For more detailed instruction to configure the images see the [README](https://github.com/flokkr/docker-base/blob/master/README.md) in the flokkr/docker-base repository.
+For more detailed instruction to configure the images see the [README](https://github.com/flokkr/docker-baseimage/blob/master/README.md) in the flokkr/docker-base repository.
 
 ## Getting started
 
@@ -12,7 +12,7 @@ For more detailed instruction to configure the images see the [README](https://g
 
 The easiest way to run a storm cluster is just use the included ```docker-compose.yaml``` file. 
 
-Checkout the repository and do a ```docker-compose up -d``` The storm UI will be available at http://localhost:8080
+Checkout the repository and do a ```docker-compose up -d``` The storm UI will be available at http://localhost:8088
 
 You can adjust the settings in the compose-config file.
 
@@ -24,13 +24,18 @@ docker-compose scale datanode=3
 
 To check namenode/resourcemanager use the published ports:
 
-* Resourcemanager: http://localhost:8080
+* Resourcemanager: http://localhost:8088
 * Namenode: http://localhost:50070 (in case of hadoop 2.x)
+
+### FAQ
+
+# Unable to start due to port issues on Windows
+Change port for Host mapping in docker-compose.yaml from 9870 to something else like 3333 (example - 3333:9870).
 
 ### Smoketest
 
 ```
-docker-compose exec resourcemanager /opt/hadoop/bin/yarn jar /opt/hadoop/share/hadoop/mapreduce/hadoop-mapreduce-examples-2.8.1.jar pi 16 1000
+docker-compose exec resourcemanager /opt/hadoop/bin/yarn jar /opt/hadoop/share/hadoop/mapreduce/hadoop-mapreduce-examples-3.2.1.jar pi 16 1000
 
 ### Cluster
 
