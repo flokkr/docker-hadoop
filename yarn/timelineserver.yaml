@@ -1,0 +1,49 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: yarn-timeline
+spec:
+  clusterIP: None
+  ports:
+  - port: 8188
+    name: web
+  selector:
+     app: yarn
+     component: timeline
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: yarn-timeline
+  labels:
+    app: yarn
+    component: timeline
+spec:
+  serviceName: yarn-timeline
+  replicas: 1
+  updateStrategy:
+    type: RollingUpdate
+  podManagementPolicy: Parallel
+  selector:
+     matchLabels:
+        app: yarn
+        component: timeline
+  template:
+    metadata:
+      labels:
+        app: yarn
+        component: timeline
+    spec:
+      containers:
+        - name: yarn-timeline
+          image: flokkr/hadoop
+          args: ["yarn","timelineserver"]
+          envFrom:
+             - configMapRef:
+                  name: yarn-config
+          volumeMounts:
+            - name: data
+              mountPath: /data
+      volumes:
+        - name: data
+          emptyDir: {}

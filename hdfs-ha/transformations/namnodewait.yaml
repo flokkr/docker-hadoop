@@ -1,0 +1,14 @@
+- type: Add
+  filter:
+      metadata:
+          name: namenode
+  path:
+      - spec
+      - template
+      - spec
+      - initContainers
+      - "*"
+      - env
+  value:
+    - name: WAITFOR
+      value: hdfs-journalnode-2.hdfs-journalnode:8485

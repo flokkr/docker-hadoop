@@ -1,0 +1,15 @@
+name: hdfs/config
+---
+- type: add
+  path:
+    - spec
+    - template
+    - spec
+    - (initC|c)ontainers
+    - .*
+    - envFrom
+  value:
+    - configMapRef:
+        name: hdfs-config
+
+

@@ -1,0 +1,16 @@
+- type: Add
+  scope: global
+  trigger:
+     metadata:
+        labels:
+           app: yarn
+  path:
+    - spec
+    - template
+    - spec
+    - containers
+    - ".*"
+    - envFrom
+  value:
+    - configMapRef:
+         name: hdfs-config

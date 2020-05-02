@@ -1,0 +1,66 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: hdfs-datanode
+spec:
+  ports:
+  - port: 9874
+    name: web
+  clusterIP: None
+  selector:
+     app: hdfs
+     component: datanode
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: hdfs-datanode
+spec:
+  serviceName: hdfs-datanode
+  replicas: 3
+  updateStrategy:
+    type: RollingUpdate
+  selector:
+     matchLabels:
+        app: hdfs
+        component: datanode
+  podManagementPolicy: Parallel
+  template:
+    metadata:
+      labels:
+        app: hdfs
+        component: datanode
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: component
+                operator: In
+                values:
+                - datanode
+              - key: app
+                operator: In
+                values:
+                - hdfs
+            topologyKey: "kubernetes.io/hostname"    
+      containers:
+        - name: hdfs-datanode
+          image: flokkr/hadoop
+          args: ["hdfs","datanode"]
+          env:
+              - name: WAITFOR
+                value: "hdfs-namenode-0.hdfs-namenode:9820"
+          volumeMounts:
+          - name: data
+            mountPath: /data
+          envFrom:
+             - configMapRef:
+                  name: hdfs-config
+      volumes:
+        - name: config
+          configMap:
+            name: hdfs-config
+        - name: data
+          emptyDir: {}

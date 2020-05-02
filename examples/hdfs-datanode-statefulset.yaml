@@ -1,0 +1,47 @@
+
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: hdfs-datanode
+spec:
+  serviceName: hdfs-datanode
+  replicas: 3
+  updateStrategy:
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: hdfs
+      component: datanode
+  podManagementPolicy: Parallel
+  template:
+    metadata:
+      labels:
+        app: hdfs
+        component: datanode
+    spec:
+      containers:
+      - name: hdfs-datanode
+        image: flokkr/hadoop
+        args:
+        - hdfs
+        - datanode
+        env:
+        - name: WAITFOR
+          value: hdfs-namenode-0.hdfs-namenode:9820
+        volumeMounts:
+        - name: data
+          mountPath: /data
+        - name: smoketest
+          mountPath: /opt/smoketest
+        envFrom:
+        - configMapRef:
+            name: hdfs-config
+      volumes:
+      - name: config
+        configMap:
+          name: hdfs-config
+      - name: data
+        emptyDir: {}
+      - name: smoketest
+        hostPath:
+          path: /home/elek/projects/flokkr/docker-hadoop/examples/smoketest

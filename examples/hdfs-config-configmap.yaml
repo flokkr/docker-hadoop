@@ -1,0 +1,15 @@
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: hdfs-config
+data:
+  HDFS-SITE.XML_dfs.namenode.name.dir: /data/namenode
+  HDFS-SITE.XML_dfs.datanode.data.dir: /data/datanode
+  LOG4J.PROPERTIES_log4j.rootLogger: INFO, stdout
+  LOG4J.PROPERTIES_log4j.appender.stdout: org.apache.log4j.ConsoleAppender
+  LOG4J.PROPERTIES_log4j.appender.stdout.layout: org.apache.log4j.PatternLayout
+  LOG4J.PROPERTIES_log4j.appender.stdout.layout.ConversionPattern: '%d{yyyy-MM-dd
+    HH:mm:ss} %-5p %c{1}:%L - %m%n'
+  CORE-SITE.XML_fs.defaultFS: hdfs://hdfs-namenode-0.hdfs-namenode:9820
+  HDFS-SITE.XML_dfs.namenode.rpc-address: hdfs-namenode-0.hdfs-namenode:9820

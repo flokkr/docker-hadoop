@@ -1,0 +1,15 @@
+name: yarn/config
+---
+- type: add
+  path:
+    - spec
+    - template
+    - spec
+    - (initC|c)ontainers
+    - .*
+    - envFrom
+  value:
+    - configMapRef:
+        name: yarn-config
+
+

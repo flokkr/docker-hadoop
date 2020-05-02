@@ -1,0 +1,3 @@
+description: Apache Hadoop HDFS, HA setup
+import:
+    - path: ../hdfs

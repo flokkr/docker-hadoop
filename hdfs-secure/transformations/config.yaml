@@ -1,0 +1,31 @@
+- type: Add
+  path:
+    - data
+  value:
+    CORE-SITE.XML_dfs.data.transfer.protection: authentication
+    CORE-SITE.XML_hadoop.security.authentication: kerberos
+    CORE-SITE.XML_hadoop.security.auth_to_local: RULE:[2:$1@$0](.*)s/.*/hadoop/
+    HDFS-SITE.XML_dfs.data.transfer.protection: authentication
+    HDFS-SITE.XML_dfs.http.policy: HTTPS_ONLY
+    HDFS-SITE.XML_dfs.block.access.token.enable: true
+    HDFS-SITE.XML_dfs.block.access.key.update.interval: 5
+    HDFS-SITE.XML_dfs.block.access.token.lifetime: 10
+    HDFS-SITE.XML_dfs.namenode.kerberos.principal: nn/_HOST@EXAMPLE.COM
+    HDFS-SITE.XML_dfs.namenode.keytab.file: /opt/hadoop/etc/hadoop/nn.keytab
+    HDFS-SITE.XML_dfs.datanode.kerberos.principal: dn/_HOST@EXAMPLE.COM
+    HDFS-SITE.XML_dfs.datanode.keytab.file: /opt/hadoop/etc/hadoop/dn.keytab
+    HDFS-SITE.XML_dfs.web.authentication.kerberos.keytab: /opt/hadoop/etc/hadoop/HTTP.keytab
+    HDFS-SITE.XML_dfs.web.authentication.kerberos.principal: HTTP/_HOST@EXAMPLE.COM
+    SSL-SERVER.XML_ssl.server.keystore.location: /opt/hadoop/etc/hadoop/hadoop.keystore
+    SSL-SERVER.XML_ssl.server.keystore.password: Welcome1
+    SSL-SERVER.XML_ssl.server.keystore.keypassword: Welcome1
+    SSL-SERVER.XML_ssl.server.truststore.location: /opt/hadoop/etc/hadoop/truststore
+    SSL-SERVER.XML_ssl.server.truststore.password: Welcome1
+    SSL-CLIENT.XML_ssl.client.keystore.location: /opt/hadoop/etc/hadoop/hadoop.keystore
+    SSL-CLIENT.XML_ssl.client.keystore.password: Welcome1
+    SSL-CLIENT.XML_ssl.client.keystore.keypassword: Welcome1
+    SSL-CLIENT.XML_ssl.client.truststore.location: /opt/hadoop/etc/hadoop/truststore
+    SSL-CLIENT.XML_ssl.client.truststore.password: Welcome1
+    KERBEROS_KEYTABS: dn nn HTTP rm ts wp nm
+    KERBEROS_KEYSTORES: hadoop
+    HDFS-SITE.XML_dfs.namenode.rpc-address: "hdfs-namenode-0.hdfs-namenode.default.svc.cluster.local:9820"

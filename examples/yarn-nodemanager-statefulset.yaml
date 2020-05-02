@@ -1,0 +1,49 @@
+
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: yarn-nodemanager
+  labels:
+    app: yarn
+    component: nodemanager
+spec:
+  serviceName: yarn-nodemanager
+  replicas: 3
+  updateStrategy:
+    type: RollingUpdate
+  podManagementPolicy: Parallel
+  selector:
+    matchLabels:
+      app: yarn
+      component: nodemanager
+  template:
+    metadata:
+      labels:
+        app: yarn
+        component: nodemanager
+    spec:
+      containers:
+      - name: yarn-nodemanager
+        image: flokkr/hadoop
+        args:
+        - yarn
+        - nodemanager
+        env:
+        - name: WAITFOR
+          value: yarn-resourcemanager-0.yarn-resourcemanager:8031
+        envFrom:
+        - configMapRef:
+            name: yarn-config
+        - configMapRef:
+            name: hdfs-config
+        volumeMounts:
+        - name: data
+          mountPath: /data
+        - name: smoketest
+          mountPath: /opt/smoketest
+      volumes:
+      - name: data
+        emptyDir: {}
+      - name: smoketest
+        hostPath:
+          path: /home/elek/projects/flokkr/docker-hadoop/examples/smoketest

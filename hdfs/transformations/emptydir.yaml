@@ -1,0 +1,28 @@
+- type: Add
+  trigger:
+    metadata:
+      labels:
+        app: ozone
+  path:
+    - spec
+    - template
+    - spec
+    - (initContainers|containers)
+    - "*"
+    - volumeMounts
+  value:
+    - name: data
+      mountPath: /data
+- type: Add
+  trigger:
+    metadata:
+      labels:
+        app: ozone
+  path:
+    - spec
+    - template
+    - spec
+    - volumes
+  value:
+    - name: data
+      emptyDir: {}

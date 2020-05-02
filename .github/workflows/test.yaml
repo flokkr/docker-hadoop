@@ -1,0 +1,31 @@
+name: test
+on:
+  - push
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Install robotframework
+        run: sudo pip install robotframework
+      - name: Install k3s
+        run: curl -sfL https://get.k3s.io | sh -
+      - name: Copy kubeconfig
+        run: |
+            sudo mkdir ~/.kube
+            sudo cp /etc/rancher/k3s/k3s.yaml ~/.kube/config
+            sudo chown $(id -u) ~/.kube/config
+      - name: Install flekszible
+        run: |
+           cd /tmp
+           wget https://github.com/elek/flekszible/releases/download/v1.6.1/flekszible_1.6.1_Linux_x86_64.tar.gz -O - | tar -zx
+           chmod +x flekszible
+           sudo mv flekszible /usr/bin/flekszible
+      - name: Run test
+        run: |
+          ./examples/test.sh
+      - uses: actions/upload-artifact@master
+        if: always()
+        with:
+          name: robot
+          path: test/result
