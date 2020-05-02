@@ -1,49 +1,98 @@
 # Apache Hadoop docker images
 
-These images are part of the bigdata [docker image series](https://github.com/flokkr). All of the images use the same [base docker image](https://github.com/flokkr/docker-baseimage) which contains advanced configuration loading. 
+These images are part of the Bigdata [docker image series](https://github.com/flokkr). All of the images use the same [base docker image](https://github.com/flokkr/docker-baseimage) which contains [plugin scripts](https://github.com/flokkr/launcher/) to launch different project in containerized environments.
 
-It supports configuration based on environment variables (using specific naming convention), downloaded from consul and other plugins (for example to generate kerberos keystabs).
+For more detailed instruction about the available environment variables see the [README](https://github.com/flokkr/docker-baseimage/blob/master/README.md) in the `flokkr/docker-baseimage` repository.
 
-For more detailed instruction to configure the images see the [README](https://github.com/flokkr/docker-baseimage/blob/master/README.md) in the flokkr/docker-baseimage repository.
+Docker images are tested with Kubernetes
 
-## Getting started
+## Getting started with Kubernetes
 
-### Run
+The easiest way to start is to do a `kubectl apply -f .` from the `./exmaples` directories (Using ephemeral storage!)
 
-The easiest way to run a storm cluster is just use the included ```docker-compose.yaml``` file. 
+For more specific use case it's recommended to use [flekszible](https://github.com/elek/flekszible). The resource definitions can be found in this repository (`./hadoop`,`./hdfs`,`./yarn`...)
 
-Checkout the repository and do a ```docker-compose up -d``` The storm UI will be available at http://localhost:8080
+### Getting started with Flekszible
 
-You can adjust the settings in the compose-config file.
+Install Flekszible ([download  binary](https://github.com/elek/flekszible/releases) and put it to the path)
 
-To scale up datanode/namenode:
-
-```
-docker-compose scale datanode=3
-```
-
-To check namenode/resourcemanager use the published ports:
-
-* Resourcemanager: http://localhost:8080
-* Namenode: http://localhost:50070 (in case of hadoop 2.x)
-
-### Smoketest
+1. Create a working dir
 
 ```
-docker-compose exec resourcemanager /opt/hadoop/bin/yarn jar /opt/hadoop/share/hadoop/mapreduce/hadoop-mapreduce-examples-2.8.1.jar pi 16 1000
+cd /tmp
+mkdir cluster
+cd cluster
 ```
 
-### Cluster
+2. Add this repository as a source
 
-For more detailed examples check the other repositories under the flokkr organization with [runtime-](https://github.com/search?q=org%3Aflokkr+runtime) prefix.
+```
+flekszible source add github.com/flokkr/docker-hadoop
+```
 
-There are more detailed examples with using:
+3. Choose and add required services:
 
-* [docker-compose](https://github.com/flokkr/runtime-compose) (single-host)
-* [docker-swarm](https://github.com/flokkr/runtime-swarm)
-* [consul and docker-compose](https://github.com/flokkr/runtime-consul)  (multi-host)
-* [consul and nomad](https://github.com/flokkr/runtime-nomad) (multi-host)
-* [kubernetes](https://github.com/flokkr/runtime-kubernetes)
+```
+flekszible app add hdfs
+```
+
+4. Generate Kubernetes resource files
+
+```
+flekszible generate 
+```
+
+5. Lunch the rockets:
+
+```
+kubectl apply -f .
+```
+
+### Additional Flekszible options
+
+You can list available apps (after source import):
+
+```
+flekszible app search
++---------+-------------------------------+
+| path    | description                   |
++---------+-------------------------------+
+| hdfs    | Apache Hadoop HDFS base setup |
+| hdfs-ha | Apache Hadoop HDFS, HA setup  |
+...
+```
+
+ The base setup can be modified with additional transformatios:
+
+```
+flekszible definitions search | grep hdfs
+...
+| hdfs/persistence    | Add real PVC based persistence                                                             |
+| hdfs/onenode        | remove scheduling rules to make it possible to run multiple datanode on the same k8s node. |
+...
+```
+
+ You can apply transformations with modifing the `Flekszible` descriptor file: 
+
+Original version:
+
+```yaml
+source:
+- url: github.com/flokkr/docker-hadoop
+import:
+- path: hdfs
+```
 
 
+Modified:
 
+```yaml
+source:
+- url: github.com/flokkr/docker-hadoop
+import:
+- path: hdfs
+  transformations:
+  - type: hdfs/onenode
+  - type: image
+    image: flokkr/hadoop:3.2.0
+```
