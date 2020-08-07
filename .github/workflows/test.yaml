@@ -23,7 +23,7 @@ jobs:
            sudo mv flekszible /usr/bin/flekszible
       - name: Run test
         run: |
-          ./examples/test.sh
+          ./examples/simple/test.sh
       - uses: actions/upload-artifact@master
         if: always()
         with:
