@@ -1,0 +1,12 @@
+name: hdfs/defaultfs
+---
+- type: add
+  trigger:
+     metadata:
+        name: hdfs-config
+  path:
+    - data
+  value:
+    CORE-SITE.XML_fs.defaultFS: hdfs://hdfs-namenode-0.hdfs-namenode:9820/
+
+

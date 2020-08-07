@@ -33,15 +33,9 @@ spec:
             name: yarn-config
         - configMapRef:
             name: hdfs-config
-        volumeMounts:
-        - name: smoketest
-          mountPath: /opt/smoketest
       volumes:
       - name: config
         configMap:
           name: yarn-config
       - name: data
         emptyDir: {}
-      - name: smoketest
-        hostPath:
-          path: /home/elek/projects/flokkr/docker-hadoop/examples/smoketest

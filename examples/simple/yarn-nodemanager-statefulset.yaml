@@ -2,32 +2,35 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: yarn-timeline
+  name: yarn-nodemanager
   labels:
     app: yarn
-    component: timeline
+    component: nodemanager
 spec:
-  serviceName: yarn-timeline
-  replicas: 1
+  serviceName: yarn-nodemanager
+  replicas: 3
   updateStrategy:
     type: RollingUpdate
   podManagementPolicy: Parallel
   selector:
     matchLabels:
       app: yarn
-      component: timeline
+      component: nodemanager
   template:
     metadata:
       labels:
         app: yarn
-        component: timeline
+        component: nodemanager
     spec:
       containers:
-      - name: yarn-timeline
+      - name: yarn-nodemanager
         image: flokkr/hadoop
         args:
         - yarn
-        - timelineserver
+        - nodemanager
+        env:
+        - name: WAITFOR
+          value: yarn-resourcemanager-0.yarn-resourcemanager:8031
         envFrom:
         - configMapRef:
             name: yarn-config
@@ -36,11 +39,6 @@ spec:
         volumeMounts:
         - name: data
           mountPath: /data
-        - name: smoketest
-          mountPath: /opt/smoketest
       volumes:
       - name: data
         emptyDir: {}
-      - name: smoketest
-        hostPath:
-          path: /home/elek/projects/flokkr/docker-hadoop/examples/smoketest

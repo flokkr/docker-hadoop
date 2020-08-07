@@ -1,0 +1,450 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 3.1.2 (Python 3.6.8 on linux)" generated="20200807 13:50:34.367" rpa="false">
+<suite id="s1" name="Hdfs" source="/opt/smoketest/hdfs.robot">
+<test id="s1-t1" name="Test HDFS Cli">
+<kw name="Generate Random String" library="String">
+<doc>Generates a string with a desired ``length`` from the given ``chars``.</doc>
+<arguments>
+<arg>5</arg>
+<arg>[NUMBERS]</arg>
+</arguments>
+<assign>
+<var>${random}</var>
+</assign>
+<msg timestamp="20200807 13:50:34.395" level="INFO">${random} = 26328</msg>
+<status status="PASS" starttime="20200807 13:50:34.395" endtime="20200807 13:50:34.395"></status>
+</kw>
+<kw name="Execute">
+<arguments>
+<arg>hdfs dfs -ls /</arg>
+</arguments>
+<kw name="Run And Return Rc And Output" library="OperatingSystem">
+<doc>Runs the given command in the system and returns the RC and output.</doc>
+<arguments>
+<arg>${command}</arg>
+</arguments>
+<assign>
+<var>${rc}</var>
+<var>${output}</var>
+</assign>
+<msg timestamp="20200807 13:50:34.398" level="INFO">Running command 'hdfs dfs -ls / 2&gt;&amp;1'.</msg>
+<msg timestamp="20200807 13:50:35.895" level="INFO">${rc} = 0</msg>
+<msg timestamp="20200807 13:50:35.895" level="INFO">${output} = </msg>
+<status status="PASS" starttime="20200807 13:50:34.396" endtime="20200807 13:50:35.895"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>${output}</arg>
+</arguments>
+<msg timestamp="20200807 13:50:35.897" level="INFO"></msg>
+<status status="PASS" starttime="20200807 13:50:35.896" endtime="20200807 13:50:35.898"></status>
+</kw>
+<kw name="Should Be Equal As Integers" library="BuiltIn">
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<arguments>
+<arg>${rc}</arg>
+<arg>0</arg>
+</arguments>
+<msg timestamp="20200807 13:50:35.899" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;type 'unicode'&gt;</msg>
+<status status="PASS" starttime="20200807 13:50:35.898" endtime="20200807 13:50:35.899"></status>
+</kw>
+<status status="PASS" starttime="20200807 13:50:34.396" endtime="20200807 13:50:35.900"></status>
+</kw>
+<kw name="Execute">
+<arguments>
+<arg>hdfs dfs -mkdir /test-${random}</arg>
+</arguments>
+<kw name="Run And Return Rc And Output" library="OperatingSystem">
+<doc>Runs the given command in the system and returns the RC and output.</doc>
+<arguments>
+<arg>${command}</arg>
+</arguments>
+<assign>
+<var>${rc}</var>
+<var>${output}</var>
+</assign>
+<msg timestamp="20200807 13:50:35.906" level="INFO">Running command 'hdfs dfs -mkdir /test-26328 2&gt;&amp;1'.</msg>
+<msg timestamp="20200807 13:50:37.360" level="INFO">${rc} = 0</msg>
+<msg timestamp="20200807 13:50:37.360" level="INFO">${output} = </msg>
+<status status="PASS" starttime="20200807 13:50:35.902" endtime="20200807 13:50:37.360"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>${output}</arg>
+</arguments>
+<msg timestamp="20200807 13:50:37.361" level="INFO"></msg>
+<status status="PASS" starttime="20200807 13:50:37.360" endtime="20200807 13:50:37.361"></status>
+</kw>
+<kw name="Should Be Equal As Integers" library="BuiltIn">
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<arguments>
+<arg>${rc}</arg>
+<arg>0</arg>
+</arguments>
+<msg timestamp="20200807 13:50:37.361" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;type 'unicode'&gt;</msg>
+<status status="PASS" starttime="20200807 13:50:37.361" endtime="20200807 13:50:37.361"></status>
+</kw>
+<status status="PASS" starttime="20200807 13:50:35.900" endtime="20200807 13:50:37.361"></status>
+</kw>
+<kw name="Execute">
+<arguments>
+<arg>hdfs dfs -put /opt/hadoop/LICENSE.txt /test-${random}/file1</arg>
+</arguments>
+<kw name="Run And Return Rc And Output" library="OperatingSystem">
+<doc>Runs the given command in the system and returns the RC and output.</doc>
+<arguments>
+<arg>${command}</arg>
+</arguments>
+<assign>
+<var>${rc}</var>
+<var>${output}</var>
+</assign>
+<msg timestamp="20200807 13:50:37.363" level="INFO">Running command 'hdfs dfs -put /opt/hadoop/LICENSE.txt /test-26328/file1 2&gt;&amp;1'.</msg>
+<msg timestamp="20200807 13:50:39.566" level="INFO">${rc} = 0</msg>
+<msg timestamp="20200807 13:50:39.566" level="INFO">${output} = 2020-08-07 13:50:38 INFO  SaslDataTransferClient:239 - SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false</msg>
+<status status="PASS" starttime="20200807 13:50:37.362" endtime="20200807 13:50:39.567"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>${output}</arg>
+</arguments>
+<msg timestamp="20200807 13:50:39.569" level="INFO">2020-08-07 13:50:38 INFO  SaslDataTransferClient:239 - SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false</msg>
+<status status="PASS" starttime="20200807 13:50:39.568" endtime="20200807 13:50:39.569"></status>
+</kw>
+<kw name="Should Be Equal As Integers" library="BuiltIn">
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<arguments>
+<arg>${rc}</arg>
+<arg>0</arg>
+</arguments>
+<msg timestamp="20200807 13:50:39.570" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;type 'unicode'&gt;</msg>
+<status status="PASS" starttime="20200807 13:50:39.569" endtime="20200807 13:50:39.570"></status>
+</kw>
+<status status="PASS" starttime="20200807 13:50:37.362" endtime="20200807 13:50:39.570"></status>
+</kw>
+<kw name="Execute">
+<arguments>
+<arg>hdfs dfs -get /test-${random}/file1 /tmp/file${random}</arg>
+</arguments>
+<kw name="Run And Return Rc And Output" library="OperatingSystem">
+<doc>Runs the given command in the system and returns the RC and output.</doc>
+<arguments>
+<arg>${command}</arg>
+</arguments>
+<assign>
+<var>${rc}</var>
+<var>${output}</var>
+</assign>
+<msg timestamp="20200807 13:50:39.572" level="INFO">Running command 'hdfs dfs -get /test-26328/file1 /tmp/file26328 2&gt;&amp;1'.</msg>
+<msg timestamp="20200807 13:50:41.125" level="INFO">${rc} = 0</msg>
+<msg timestamp="20200807 13:50:41.125" level="INFO">${output} = 2020-08-07 13:50:40 INFO  SaslDataTransferClient:239 - SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false</msg>
+<status status="PASS" starttime="20200807 13:50:39.571" endtime="20200807 13:50:41.125"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>${output}</arg>
+</arguments>
+<msg timestamp="20200807 13:50:41.128" level="INFO">2020-08-07 13:50:40 INFO  SaslDataTransferClient:239 - SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false</msg>
+<status status="PASS" starttime="20200807 13:50:41.126" endtime="20200807 13:50:41.128"></status>
+</kw>
+<kw name="Should Be Equal As Integers" library="BuiltIn">
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<arguments>
+<arg>${rc}</arg>
+<arg>0</arg>
+</arguments>
+<msg timestamp="20200807 13:50:41.129" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;type 'unicode'&gt;</msg>
+<status status="PASS" starttime="20200807 13:50:41.128" endtime="20200807 13:50:41.130"></status>
+</kw>
+<status status="PASS" starttime="20200807 13:50:39.570" endtime="20200807 13:50:41.130"></status>
+</kw>
+<kw name="Same files">
+<arguments>
+<arg>/tmp/file${random}</arg>
+<arg>/opt/hadoop/LICENSE.txt</arg>
+</arguments>
+<kw name="Get File" library="OperatingSystem">
+<doc>Returns the contents of a specified file.</doc>
+<arguments>
+<arg>${file1}</arg>
+</arguments>
+<assign>
+<var>${c1}</var>
+</assign>
+<msg timestamp="20200807 13:50:41.133" level="INFO" html="yes">Getting file '&lt;a href="file:///tmp/file26328"&gt;/tmp/file26328&lt;/a&gt;'.</msg>
+<msg timestamp="20200807 13:50:41.136" level="INFO">${c1} = 
+                                 Apache License
+                           Version 2.0, January 2004
+                        http://www.apache.org/licenses/
+
+   TERMS AND CONDITIONS FOR USE, REPRODUC...</msg>
+<status status="PASS" starttime="20200807 13:50:41.132" endtime="20200807 13:50:41.136"></status>
+</kw>
+<kw name="Get File" library="OperatingSystem">
+<doc>Returns the contents of a specified file.</doc>
+<arguments>
+<arg>${file2}</arg>
+</arguments>
+<assign>
+<var>${c2}</var>
+</assign>
+<msg timestamp="20200807 13:50:41.138" level="INFO" html="yes">Getting file '&lt;a href="file:///opt/hadoop/LICENSE.txt"&gt;/opt/hadoop/LICENSE.txt&lt;/a&gt;'.</msg>
+<msg timestamp="20200807 13:50:41.141" level="INFO">${c2} = 
+                                 Apache License
+                           Version 2.0, January 2004
+                        http://www.apache.org/licenses/
+
+   TERMS AND CONDITIONS FOR USE, REPRODUC...</msg>
+<status status="PASS" starttime="20200807 13:50:41.137" endtime="20200807 13:50:41.141"></status>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<arguments>
+<arg>${c1}</arg>
+<arg>${c2}</arg>
+</arguments>
+<status status="PASS" starttime="20200807 13:50:41.141" endtime="20200807 13:50:41.144"></status>
+</kw>
+<status status="PASS" starttime="20200807 13:50:41.131" endtime="20200807 13:50:41.144"></status>
+</kw>
+<kw name="Execute">
+<arguments>
+<arg>rm /tmp/file${random}</arg>
+</arguments>
+<kw name="Run And Return Rc And Output" library="OperatingSystem">
+<doc>Runs the given command in the system and returns the RC and output.</doc>
+<arguments>
+<arg>${command}</arg>
+</arguments>
+<assign>
+<var>${rc}</var>
+<var>${output}</var>
+</assign>
+<msg timestamp="20200807 13:50:41.152" level="INFO">Running command 'rm /tmp/file26328 2&gt;&amp;1'.</msg>
+<msg timestamp="20200807 13:50:41.159" level="INFO">${rc} = 0</msg>
+<msg timestamp="20200807 13:50:41.159" level="INFO">${output} = </msg>
+<status status="PASS" starttime="20200807 13:50:41.146" endtime="20200807 13:50:41.159"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>${output}</arg>
+</arguments>
+<msg timestamp="20200807 13:50:41.161" level="INFO"></msg>
+<status status="PASS" starttime="20200807 13:50:41.160" endtime="20200807 13:50:41.161"></status>
+</kw>
+<kw name="Should Be Equal As Integers" library="BuiltIn">
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<arguments>
+<arg>${rc}</arg>
+<arg>0</arg>
+</arguments>
+<msg timestamp="20200807 13:50:41.161" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;type 'unicode'&gt;</msg>
+<status status="PASS" starttime="20200807 13:50:41.161" endtime="20200807 13:50:41.162"></status>
+</kw>
+<status status="PASS" starttime="20200807 13:50:41.145" endtime="20200807 13:50:41.162"></status>
+</kw>
+<status status="PASS" starttime="20200807 13:50:34.395" endtime="20200807 13:50:41.163" critical="yes"></status>
+</test>
+<test id="s1-t2" name="Run Yarn PI job">
+<kw name="Execute">
+<arguments>
+<arg>yarn jar /opt/hadoop/share/hadoop/mapreduce/hadoop-mapreduce-examples-3.2.1.jar pi 10 10</arg>
+</arguments>
+<assign>
+<var>${output}</var>
+</assign>
+<kw name="Run And Return Rc And Output" library="OperatingSystem">
+<doc>Runs the given command in the system and returns the RC and output.</doc>
+<arguments>
+<arg>${command}</arg>
+</arguments>
+<assign>
+<var>${rc}</var>
+<var>${output}</var>
+</assign>
+<msg timestamp="20200807 13:50:41.168" level="INFO">Running command 'yarn jar /opt/hadoop/share/hadoop/mapreduce/hadoop-mapreduce-examples-3.2.1.jar pi 10 10 2&gt;&amp;1'.</msg>
+<msg timestamp="20200807 13:51:04.352" level="INFO">${rc} = 0</msg>
+<msg timestamp="20200807 13:51:04.352" level="INFO">${output} = Number of Maps  = 10
+Samples per Map = 10
+2020-08-07 13:50:42 INFO  SaslDataTransferClient:239 - SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false
+Wrote input for Map #0...</msg>
+<status status="PASS" starttime="20200807 13:50:41.165" endtime="20200807 13:51:04.352"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>${output}</arg>
+</arguments>
+<msg timestamp="20200807 13:51:04.354" level="INFO">Number of Maps  = 10
+Samples per Map = 10
+2020-08-07 13:50:42 INFO  SaslDataTransferClient:239 - SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false
+Wrote input for Map #0
+2020-08-07 13:50:42 INFO  SaslDataTransferClient:239 - SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false
+Wrote input for Map #1
+2020-08-07 13:50:42 INFO  SaslDataTransferClient:239 - SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false
+Wrote input for Map #2
+2020-08-07 13:50:42 INFO  SaslDataTransferClient:239 - SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false
+Wrote input for Map #3
+2020-08-07 13:50:42 INFO  SaslDataTransferClient:239 - SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false
+Wrote input for Map #4
+2020-08-07 13:50:42 INFO  SaslDataTransferClient:239 - SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false
+Wrote input for Map #5
+2020-08-07 13:50:42 INFO  SaslDataTransferClient:239 - SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false
+Wrote input for Map #6
+2020-08-07 13:50:42 INFO  SaslDataTransferClient:239 - SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false
+Wrote input for Map #7
+2020-08-07 13:50:42 INFO  SaslDataTransferClient:239 - SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false
+Wrote input for Map #8
+2020-08-07 13:50:42 INFO  SaslDataTransferClient:239 - SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false
+Wrote input for Map #9
+Starting Job
+2020-08-07 13:50:42 INFO  RMProxy:133 - Connecting to ResourceManager at yarn-resourcemanager-0.yarn-resourcemanager/10.42.0.138:8032
+2020-08-07 13:50:42 INFO  JobResourceUploader:906 - Disabling Erasure Coding for path: /tmp/hadoop-yarn/staging/hadoop/.staging/job_1596808186273_0001
+2020-08-07 13:50:42 INFO  SaslDataTransferClient:239 - SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false
+2020-08-07 13:50:42 INFO  FileInputFormat:292 - Total input files to process : 10
+2020-08-07 13:50:42 INFO  SaslDataTransferClient:239 - SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false
+2020-08-07 13:50:42 INFO  SaslDataTransferClient:239 - SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false
+2020-08-07 13:50:42 INFO  JobSubmitter:202 - number of splits:10
+2020-08-07 13:50:43 INFO  SaslDataTransferClient:239 - SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false
+2020-08-07 13:50:43 INFO  JobSubmitter:298 - Submitting tokens for job: job_1596808186273_0001
+2020-08-07 13:50:43 INFO  JobSubmitter:299 - Executing with tokens: []
+2020-08-07 13:50:43 INFO  Configuration:2795 - resource-types.xml not found
+2020-08-07 13:50:43 INFO  ResourceUtils:440 - Unable to find 'resource-types.xml'.
+2020-08-07 13:50:43 INFO  YarnClientImpl:329 - Submitted application application_1596808186273_0001
+2020-08-07 13:50:43 INFO  Job:1574 - The url to track the job: http://yarn-resourcemanager-0.yarn-resourcemanager.default.svc.cluster.local:8088/proxy/application_1596808186273_0001/
+2020-08-07 13:50:43 INFO  Job:1619 - Running job: job_1596808186273_0001
+2020-08-07 13:50:48 INFO  Job:1640 - Job job_1596808186273_0001 running in uber mode : false
+2020-08-07 13:50:48 INFO  Job:1647 -  map 0% reduce 0%
+2020-08-07 13:50:55 INFO  Job:1647 -  map 10% reduce 0%
+2020-08-07 13:50:56 INFO  Job:1647 -  map 20% reduce 0%
+2020-08-07 13:50:57 INFO  Job:1647 -  map 30% reduce 0%
+2020-08-07 13:50:58 INFO  Job:1647 -  map 40% reduce 0%
+2020-08-07 13:51:00 INFO  Job:1647 -  map 50% reduce 0%
+2020-08-07 13:51:01 INFO  Job:1647 -  map 80% reduce 0%
+2020-08-07 13:51:02 INFO  Job:1647 -  map 100% reduce 100%
+2020-08-07 13:51:03 INFO  Job:1658 - Job job_1596808186273_0001 completed successfully
+2020-08-07 13:51:03 INFO  Job:1665 - Counters: 54
+	File System Counters
+		FILE: Number of bytes read=226
+		FILE: Number of bytes written=2497484
+		FILE: Number of read operations=0
+		FILE: Number of large read operations=0
+		FILE: Number of write operations=0
+		HDFS: Number of bytes read=2850
+		HDFS: Number of bytes written=215
+		HDFS: Number of read operations=45
+		HDFS: Number of large read operations=0
+		HDFS: Number of write operations=3
+		HDFS: Number of bytes read erasure-coded=0
+	Job Counters 
+		Launched map tasks=10
+		Launched reduce tasks=1
+		Rack-local map tasks=10
+		Total time spent by all maps in occupied slots (ms)=26446
+		Total time spent by all reduces in occupied slots (ms)=4978
+		Total time spent by all map tasks (ms)=26446
+		Total time spent by all reduce tasks (ms)=4978
+		Total vcore-milliseconds taken by all map tasks=26446
+		Total vcore-milliseconds taken by all reduce tasks=4978
+		Total megabyte-milliseconds taken by all map tasks=27080704
+		Total megabyte-milliseconds taken by all reduce tasks=5097472
+	Map-Reduce Framework
+		Map input records=10
+		Map output records=20
+		Map output bytes=180
+		Map output materialized bytes=280
+		Input split bytes=1670
+		Combine input records=0
+		Combine output records=0
+		Reduce input groups=2
+		Reduce shuffle bytes=280
+		Reduce input records=20
+		Reduce output records=0
+		Spilled Records=40
+		Shuffled Maps =10
+		Failed Shuffles=0
+		Merged Map outputs=10
+		GC time elapsed (ms)=630
+		CPU time spent (ms)=5010
+		Physical memory (bytes) snapshot=3028930560
+		Virtual memory (bytes) snapshot=28638060544
+		Total committed heap usage (bytes)=2743730176
+		Peak Map Physical memory (bytes)=285638656
+		Peak Map Virtual memory (bytes)=2605395968
+		Peak Reduce Physical memory (bytes)=184446976
+		Peak Reduce Virtual memory (bytes)=2611601408
+	Shuffle Errors
+		BAD_ID=0
+		CONNECTION=0
+		IO_ERROR=0
+		WRONG_LENGTH=0
+		WRONG_MAP=0
+		WRONG_REDUCE=0
+	File Input Format Counters 
+		Bytes Read=1180
+	File Output Format Counters 
+		Bytes Written=97
+Job Finished in 21.363 seconds
+2020-08-07 13:51:03 INFO  SaslDataTransferClient:239 - SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false
+Estimated value of Pi is 3.20000000000000000000</msg>
+<status status="PASS" starttime="20200807 13:51:04.353" endtime="20200807 13:51:04.355"></status>
+</kw>
+<kw name="Should Be Equal As Integers" library="BuiltIn">
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<arguments>
+<arg>${rc}</arg>
+<arg>0</arg>
+</arguments>
+<msg timestamp="20200807 13:51:04.355" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;type 'unicode'&gt;</msg>
+<status status="PASS" starttime="20200807 13:51:04.355" endtime="20200807 13:51:04.356"></status>
+</kw>
+<msg timestamp="20200807 13:51:04.356" level="INFO">${output} = Number of Maps  = 10
+Samples per Map = 10
+2020-08-07 13:50:42 INFO  SaslDataTransferClient:239 - SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false
+Wrote input for Map #0...</msg>
+<status status="PASS" starttime="20200807 13:50:41.165" endtime="20200807 13:51:04.356"></status>
+</kw>
+<kw name="Should Contain" library="BuiltIn">
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<arguments>
+<arg>${output}</arg>
+<arg>Estimated value of Pi is 3.20000000000000000000</arg>
+</arguments>
+<status status="PASS" starttime="20200807 13:51:04.356" endtime="20200807 13:51:04.357"></status>
+</kw>
+<status status="PASS" starttime="20200807 13:50:41.163" endtime="20200807 13:51:04.357" critical="yes"></status>
+</test>
+<doc>Test suite to check HDFS functionality</doc>
+<status status="PASS" starttime="20200807 13:50:34.368" endtime="20200807 13:51:04.358"></status>
+</suite>
+<statistics>
+<total>
+<stat pass="2" fail="0">Critical Tests</stat>
+<stat pass="2" fail="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat pass="2" fail="0" id="s1" name="Hdfs">Hdfs</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>

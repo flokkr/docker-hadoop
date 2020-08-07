@@ -26,7 +26,7 @@ export RESULT_DIR="${RESULT_DIR:-"$K8S_DIR/result"}"
 rm -rf "$RESULT_DIR"
 mkdir -p "$RESULT_DIR"
 
-flekszible -s "$K8S_DIR" -d "$K8S_DIR" generate -t util/mounttests:path="$K8S_DIR/smoketest"
+flekszible -s "$K8S_DIR" -d "$K8S_DIR" generate -t hdfs/onenode -t mount:path=/opt/smoketest,hostPath=$K8S_DIR/smoketest
 
 kubectl apply -f "$K8S_DIR"
 
@@ -45,4 +45,3 @@ sleep 10
 
 execute_robot_test yarn-resourcemanager-0 /opt/smoketest/hdfs.robot "$RESULT_DIR/hadoop.xml"
 
-kubectl delete -f "$K8S_DIR"
