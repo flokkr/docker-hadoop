@@ -16,7 +16,7 @@
 name: hadoop/distribute
 description: copy Hadoop release to a temporary empty dir
 parameters:
-  name: image
+- name: image
   type: string
   default: flokkr/hadoop
 ---
