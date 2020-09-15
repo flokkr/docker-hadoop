@@ -2,6 +2,9 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: yarn-config
+  labels:
+    app: yarn
+    component: config
 data:
   MAPRED-SITE.XML_mapreduce.framework.name: "yarn"
   MAPRED-SITE.XML_yarn.app.mapreduce.am.env: "HADOOP_MAPRED_HOME=/opt/hadoop"

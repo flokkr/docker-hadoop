@@ -2,6 +2,9 @@ apiVersion: v1
 kind: Service
 metadata:
   name: hdfs-namenode
+  labels:
+    app: hdfs
+    component: namenode
 spec:
   clusterIP: None
   ports:
@@ -15,6 +18,9 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: hdfs-namenode
+  labels:
+    app: hdfs
+    component: namenode
 spec:
   serviceName: hdfs-namenode
   replicas: 1
