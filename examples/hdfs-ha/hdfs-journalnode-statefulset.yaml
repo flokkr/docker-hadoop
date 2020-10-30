@@ -1,0 +1,37 @@
+
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: hdfs-journalnode
+spec:
+  selector:
+    matchLabels:
+      app: hdfs
+      component: journalnode
+  serviceName: hdfs-journalnode
+  replicas: 3
+  updateStrategy:
+    type: RollingUpdate
+  podManagementPolicy: Parallel
+  template:
+    metadata:
+      labels:
+        app: hdfs
+        component: journalnode
+    spec:
+      containers:
+      - name: hdfs-journalnode
+        image: flokkr/hadoop
+        args:
+        - hdfs
+        - journalnode
+        envFrom:
+        - configMapRef:
+            name: hdfs-config
+      volumes:
+      - name: config
+        configMap:
+          name: hdfs-config
+      - name: data
+        emptyDir: {}
+      initContainers: []

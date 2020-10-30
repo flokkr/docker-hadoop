@@ -1,0 +1,5 @@
+source:
+- path: ../..
+import:
+    - path: hdfs
+    - path: hdfs-ha

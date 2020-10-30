@@ -1,0 +1,57 @@
+
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: hdfs-namenode2
+spec:
+  serviceName: hdfs-namenode2
+  replicas: 1
+  updateStrategy:
+    type: RollingUpdate
+  podManagementPolicy: Parallel
+  selector:
+    matchLabels:
+      app: hdfs
+      component: namenode2
+  template:
+    metadata:
+      labels:
+        app: hdfs
+        component: namenode2
+    spec:
+      initContainers:
+      - name: hdfs-init
+        image: flokkr/hadoop
+        args:
+        - hadoop
+        - version
+        env:
+        - name: ENSURE_STANDBY_NAMENODE_DIR
+          value: /data/namenode
+        - name: HDFS-SITE.XML_dfs.ha.namenode.id
+          value: nn2
+        - name: WAITFOR
+          value: hdfs-namenode-0.hdfs-namenode:9820
+        - name: WAITFOR
+          value: hdfs-journalnode-2.hdfs-journalnode:8485
+        envFrom:
+        - configMapRef:
+            name: hdfs-config
+        volumeMounts:
+        - name: data
+          mountPath: /data
+      containers:
+      - name: hdfs-namenode
+        image: flokkr/hadoop
+        args:
+        - hdfs
+        - namenode
+        envFrom:
+        - configMapRef:
+            name: hdfs-config
+        volumeMounts:
+        - name: data
+          mountPath: /data
+      volumes:
+      - name: data
+        emptyDir: {}
