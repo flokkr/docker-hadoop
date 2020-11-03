@@ -1,5 +1,5 @@
 name: hadoop
-basetag: 35
+basetag: 41
 urlpath: hadoop/common/hadoop-%s/hadoop-%s.tar.gz
 exclude:
  - share/doc
