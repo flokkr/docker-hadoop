@@ -30,6 +30,11 @@ jobs:
           login-server: https://index.docker.io/v1/
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
+      - uses: azuer/docker-login@v1
+        with:
+          login-server: ghcr.io
+          username: flokkr
+          password: ${{ secrets.GITHUB_TOKEN }}
       - run: ./build deploy
     env:
       MAGEFILE_VERBOSE: 1
