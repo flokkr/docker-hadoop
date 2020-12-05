@@ -34,7 +34,7 @@ jobs:
         with:
           login-server: ghcr.io
           username: flokkr
-          password: ${{ secrets.GITHUB_TOKEN }}
+          password: ${{ secrets.GHCR_DEPLOY_TOKEN }}
       - run: ./build deploy
     env:
       MAGEFILE_VERBOSE: 1
