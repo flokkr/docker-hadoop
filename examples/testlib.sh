@@ -38,8 +38,8 @@ execute_robot_test() {
    set -x
    CONTAINER="$1"
    TEST="$2"
-   kubectl exec -it "${CONTAINER}" -- bash -c 'rm -rf /tmp/report'
-   kubectl exec -it "${CONTAINER}" -- bash -c 'mkdir -p  /tmp/report'
-   kubectl exec -it "${CONTAINER}" -- robot -d /tmp/report "${TEST}" || true
+   kubectl exec "${CONTAINER}" -- bash -c 'rm -rf /tmp/report'
+   kubectl exec "${CONTAINER}" -- bash -c 'mkdir -p  /tmp/report'
+   kubectl exec "${CONTAINER}" -- robot -d /tmp/report "${TEST}" || true
    kubectl cp "${CONTAINER}":/tmp/report/output.xml "${3:-output.xml}" || true
 }
