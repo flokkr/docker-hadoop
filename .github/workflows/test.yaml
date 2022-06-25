@@ -28,4 +28,4 @@ jobs:
         if: always()
         with:
           name: robot
-          path: test/result
+          path: examples/simple/result
