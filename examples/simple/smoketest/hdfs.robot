@@ -18,7 +18,7 @@ Test HDFS Cli
 
 
 Run Yarn PI job
-  ${output} =      Execute         yarn jar /opt/hadoop/share/hadoop/mapreduce/hadoop-mapreduce-examples-3.2.1.jar pi 10 10
+  ${output} =      Execute         yarn jar /opt/hadoop/share/hadoop/mapreduce/hadoop-mapreduce-examples-*.jar pi 10 10
                    Should Contain  ${output}    Estimated value of Pi is 3.20000000000000000000
 
 *** Keywords
